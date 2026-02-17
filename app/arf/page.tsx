@@ -27,7 +27,7 @@ export default function ArfPage() {
           </div>
 
           {/* Desktop */}
-          <div className="desktop-only">
+          <div className="desktop-only arf-desktop">
             <DesktopArf phases={phases} />
           </div>
         </div>

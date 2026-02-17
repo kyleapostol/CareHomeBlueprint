@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
-import type { PhaseData, Item, Section } from '@/types/types';
+import { useEffect, useState } from 'react';
+import type { ArfSection, PhaseData } from '@/types/types';
 
 type PhaseKey = 'prerequisites' | 'licensing' | 'vendorization';
 
@@ -15,7 +15,7 @@ export default function DesktopArf({ phases }: Props) {
   const [activePhase, setActivePhase] = useState<PhaseKey>('prerequisites');
 
   const phaseData = phases[activePhase];
-  const sections: Section[] = phaseData.sections ?? [];
+  const sections: ArfSection[] = phaseData.sections ?? [];
 
   const [activeSectionId, setActiveSectionId] = useState<string>(sections[0]?.id ?? '');
 
@@ -28,11 +28,8 @@ export default function DesktopArf({ phases }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activePhase]);
 
-  const activeSection = useMemo(() => {
-    return sections.find((s) => s.id === activeSectionId) ?? sections[0];
-  }, [sections, activeSectionId]);
-
-  const items: Item[] = activeSection?.items ?? [];
+  const activeSection = sections.find((s) => s.id === activeSectionId) ?? sections[0];
+  const bullets: string[] = activeSection?.bullets ?? [];
 
   return (
     <section className="arf-desktop" aria-label="ARF desktop navigator">
@@ -93,12 +90,11 @@ export default function DesktopArf({ phases }: Props) {
               <h2 className="section-title">{activeSection.title}</h2>
               {activeSection.summary ? <p className="section-summary">{activeSection.summary}</p> : null}
 
-              {items.length ? (
+              {bullets.length ? (
                 <ul className="items">
-                  {items.map((item, idx) => (
+                  {bullets.map((bullet, idx) => (
                     <li key={`${activeSection.id}-${idx}`} className="item">
-                      <div className="item-title">{item.title}</div>
-                      {item.notes ? <div className="item-notes">{item.notes}</div> : null}
+                      <div className="item-title">{bullet}</div>
                     </li>
                   ))}
                 </ul>
@@ -106,7 +102,7 @@ export default function DesktopArf({ phases }: Props) {
                 <div className="empty">
                   <div className="empty-title">Nothing listed yet.</div>
                   <div className="empty-sub">
-                    Add checklist items to this section in the JSON when you’re ready.
+                    Add bullets to this section in the JSON when you’re ready.
                   </div>
                 </div>
               )}

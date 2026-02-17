@@ -1,25 +1,35 @@
 {
   "phase": "Licensing",
   "description": "Regulatory submission, inspections, and approval milestones.",
-  "timeline": "3–5 months",
-  "commonDelays": [
-    "Insufficient operating funds (LIC 403)",
-    "Missing minimum staff hours (LIC 500)",
-    "Incomplete Program Design binder"
-  ],
-  "reviewerFocus": [
-    "Proof of at least 3 months operating reserve",
-    "Complete staffing plan",
-    "Policies and procedures aligned to scope"
-  ],
   "sections": [
     {
-      "id": "financials",
-      "title": "Financials",
-      "summary": "Operating reserve, LIC 403/403A, and budget planning.",
-      "items": [
-        { "title": "Prepare LIC 403", "notes": "Submit proof of 3 months operating funds." },
-        { "title": "Prepare LIC 500", "notes": "Complete staffing plan and minimum coverage." }
+      "id": "application-packet",
+      "title": "Application Packet",
+      "summary": "Complete agency forms and attach required documentation.",
+      "bullets": [
+        "Submit facility application and fee",
+        "Attach floor plans and emergency procedures",
+        "Provide administrator credentials and background clearances"
+      ]
+    },
+    {
+      "id": "policy-manuals",
+      "title": "Policy and Procedure Manuals",
+      "summary": "Operational policies must match current ARF standards.",
+      "bullets": [
+        "Resident rights and grievance process",
+        "Medication management and incident reporting",
+        "Infection control and disaster preparedness policies"
+      ]
+    },
+    {
+      "id": "inspection-cycle",
+      "title": "Pre-Licensing Inspections",
+      "summary": "Prepare for regulatory walkthrough and deficiency corrections.",
+      "bullets": [
+        "Run internal mock inspection",
+        "Document corrective actions for any deficiencies",
+        "Track final sign-off from licensing authority"
       ]
     }
   ]
