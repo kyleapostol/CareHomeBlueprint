@@ -1,0 +1,36 @@
+{
+  "phase": "Prerequisites",
+  "description": "Foundational requirements before applying for ARF licensure.",
+  "sections": [
+    {
+      "id": "entity-setup",
+      "title": "Business Entity and Governance",
+      "summary": "Form the legal entity and establish basic governance artifacts.",
+      "bullets": [
+        "Register LLC or corporation with state",
+        "Obtain EIN and set up business banking",
+        "Draft operating agreement and ownership records"
+      ]
+    },
+    {
+      "id": "site-readiness",
+      "title": "Site Readiness",
+      "summary": "Validate property suitability for residential care operations.",
+      "bullets": [
+        "Confirm zoning and occupancy alignment",
+        "Conduct fire and life-safety pre-check",
+        "Outline accessibility remediation plan"
+      ]
+    },
+    {
+      "id": "staffing-plan",
+      "title": "Initial Staffing Plan",
+      "summary": "Define coverage model and required qualifications by role.",
+      "bullets": [
+        "Define administrator and caregiver role matrix",
+        "Set minimum staffing ratios for all shifts",
+        "Create onboarding checklist and training calendar"
+      ]
+    }
+  ]
+}

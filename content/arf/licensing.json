@@ -1,0 +1,26 @@
+{
+  "phase": "Licensing",
+  "description": "Regulatory submission, inspections, and approval milestones.",
+  "timeline": "3–5 months",
+  "commonDelays": [
+    "Insufficient operating funds (LIC 403)",
+    "Missing minimum staff hours (LIC 500)",
+    "Incomplete Program Design binder"
+  ],
+  "reviewerFocus": [
+    "Proof of at least 3 months operating reserve",
+    "Complete staffing plan",
+    "Policies and procedures aligned to scope"
+  ],
+  "sections": [
+    {
+      "id": "financials",
+      "title": "Financials",
+      "summary": "Operating reserve, LIC 403/403A, and budget planning.",
+      "items": [
+        { "title": "Prepare LIC 403", "notes": "Submit proof of 3 months operating funds." },
+        { "title": "Prepare LIC 500", "notes": "Complete staffing plan and minimum coverage." }
+      ]
+    }
+  ]
+}

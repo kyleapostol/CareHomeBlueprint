@@ -1,0 +1,36 @@
+{
+  "phase": "Vendorization",
+  "description": "Post-licensing setup for payor enrollment and service delivery.",
+  "sections": [
+    {
+      "id": "payor-enrollment",
+      "title": "Payor Enrollment",
+      "summary": "Enroll with county, regional center, and applicable payors.",
+      "bullets": [
+        "Submit vendor enrollment packets",
+        "Provide rate schedule and service model details",
+        "Complete credentialing interviews if required"
+      ]
+    },
+    {
+      "id": "billing-operations",
+      "title": "Billing and Reporting Operations",
+      "summary": "Stand up compliant billing and documentation workflows.",
+      "bullets": [
+        "Implement monthly claims workflow",
+        "Define documentation standards for billable services",
+        "Set reconciliation and audit review cadence"
+      ]
+    },
+    {
+      "id": "launch-readiness",
+      "title": "Launch Readiness",
+      "summary": "Finalize opening checklist and first-resident intake process.",
+      "bullets": [
+        "Complete vendor agreement execution",
+        "Verify staffing, supplies, and intake packets",
+        "Set go-live date and escalation contacts"
+      ]
+    }
+  ]
+}
