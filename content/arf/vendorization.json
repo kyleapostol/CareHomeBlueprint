@@ -1,35 +1,61 @@
 {
   "phase": "Vendorization",
-  "description": "Post-licensing setup for payor enrollment and service delivery.",
+  "description": "The Title 17 process to become an authorized service provider for the Regional Center.",
   "sections": [
     {
-      "id": "payor-enrollment",
-      "title": "Payor Enrollment",
-      "summary": "Enroll with county, regional center, and applicable payors.",
+      "id": "regional-center-entry",
+      "title": "Vendor Application & Program Design",
+      "summary": "Align your facility with the Regional Center's specific needs and service levels.",
       "bullets": [
-        "Submit vendor enrollment packets",
-        "Provide rate schedule and service model details",
-        "Complete credentialing interviews if required"
+        {
+          "id": "ven-app-01",
+          "label": "Submit Vendor Application (Form DS 1890)",
+          "detail": "This is the 'Golden Ticket.' You must submit this to the specific Regional Center in whose catchment area your home is located."
+        },
+        {
+          "id": "ven-app-02",
+          "label": "Finalize the Program Design",
+          "detail": "A detailed document (often 30-50 pages) describing your service model, staffing ratios, and how you will meet the needs of Regional Center consumers."
+        },
+        {
+          "id": "ven-app-03",
+          "label": "Determine Service Level (1-4)",
+          "detail": "Your rate is determined by the level of care (Level 2, 3, or 4A-I). Higher levels require more specialized staffing and more intensive Program Designs."
+        }
       ]
     },
     {
-      "id": "billing-operations",
-      "title": "Billing and Reporting Operations",
-      "summary": "Stand up compliant billing and documentation workflows.",
+      "id": "contracts-and-rates",
+      "title": "Rate Setting & Electronic Billing",
+      "summary": "Establishing the financial pipeline for monthly reimbursements.",
       "bullets": [
-        "Implement monthly claims workflow",
-        "Define documentation standards for billable services",
-        "Set reconciliation and audit review cadence"
+        {
+          "id": "ven-rate-01",
+          "label": "Sign the Vendor Agreement",
+          "detail": "Once approved, you receive a unique Vendor Number. This contract binds you to Title 17 regulations, including strict reporting of 'Special Incidents' (SIRs)."
+        },
+        {
+          "id": "ven-rate-02",
+          "label": "Setup e-Billing (e-Billing System)",
+          "detail": "Most California Regional Centers use the EDI/e-Billing portal. You will need to learn the 'Attendance' and 'Invoice' submission workflow to get paid."
+        }
       ]
     },
     {
-      "id": "launch-readiness",
-      "title": "Launch Readiness",
-      "summary": "Finalize opening checklist and first-resident intake process.",
+      "id": "intake-and-compliance",
+      "title": "Placement & Ongoing Monitoring",
+      "summary": "Moving from an empty house to a fully staffed residential facility.",
       "bullets": [
-        "Complete vendor agreement execution",
-        "Verify staffing, supplies, and intake packets",
-        "Set go-live date and escalation contacts"
+        {
+          "id": "ven-ops-01",
+          "label": "Host the Facility Liaison Visit",
+          "detail": "The Regional Center Liaison will visit your home to verify it matches your Program Design before they send the first 'Referral Packet' for a resident."
+        },
+        {
+          "id": "ven-ops-02",
+          "label": "Execute Admission Agreements",
+          "detail": "This is the contract between the Licensee, the Resident, and the Regional Center. It must comply with both Title 22 and Title 17 standards."
+        }
       ]
     }
   ]

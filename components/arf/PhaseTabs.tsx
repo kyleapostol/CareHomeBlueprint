@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import Accordion from './Accordion';
-import type { PhaseData } from './types';
+import type { PhaseData } from '@/types/types';
 
 type PhaseKey = 'prerequisites' | 'licensing' | 'vendorization';
 
@@ -42,7 +42,7 @@ const activeData = phases[activePhase];
 
       <div id={`phase-${activePhase}`} role="tabpanel" className="arf-tab-panel">
         <p className="arf-phase-description">{activeData.description}</p>
-        <Accordion sections={activeData.sections} />
+        <Accordion sections={activeData.sections ?? []} />
       </div>
     </section>
   );

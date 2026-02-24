@@ -13,7 +13,6 @@ export default function Accordion({ sections }: AccordionProps) {
   return (
     <div className="arf-accordion" role="list">
       {sections.map((section) => {
-        console.log('section', section)
         const isOpen = openId === section.id;
 
         return (
@@ -35,8 +34,11 @@ export default function Accordion({ sections }: AccordionProps) {
               <div id={`panel-${section.id}`} className="arf-accordion-panel">
                 <p>{section.summary}</p>
                 <ul>
-                  {section?.bullets ?? section.bullets.map((bullet) => (
-                    <li key={bullet}>{bullet}</li>
+                  {section.bullets.map((bullet, idx) => (
+                    <li key={idx}>
+                      <strong>{bullet.label}</strong>
+                      {bullet.detail && <p style={{ marginTop: '0.25rem', fontSize: '0.95em', opacity: 0.9 }}>{bullet.detail}</p>}
+                    </li>
                   ))}
                 </ul>
               </div>

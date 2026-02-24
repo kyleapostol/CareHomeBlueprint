@@ -56,8 +56,9 @@ body {
 }
 
 .topbar-left img {
-  width: auto;
-  height: 40px;
+  width: 35px;      /* set what you actually want */
+  height: auto;      /* keep aspect ratio */
+  display: block;
 }
 
 .topbar-title {
@@ -97,4 +98,81 @@ body {
 .icon-btn:hover,
 .topbar-icon:hover {
   background: rgba(0, 0, 0, 0.03);
+}
+
+/* .logoWrap {
+  position: relative;
+  width: 120px;    
+  height: 80px;
+  overflow: hidden; 
+  flex: 0 0 auto;
+  } 
+*/
+
+.logoWrap {
+  display: flex;
+}
+
+.logoWrap img {
+  object-fit: cover;     /* fills wrapper */
+  object-position: center;
+  transform: scale(1.25); /* “zoom in” to reduce visible padding */
+}
+
+/* Progress & Toggle Container */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+/* The Percentage Badge */
+.phase-progress-badge {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #7c2d12; /* Matching your brown/red theme */
+  background: #fff7ed;
+  padding: 4px 10px;
+  border-radius: 99px;
+  border: 1px solid #ffedd5;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* The Toggle Switch (Based on your screenshot) */
+.toggle-wrapper {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 10px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 22px;
+  background-color: #e2e8f0;
+  border-radius: 20px;
+  transition: background-color 0.2s;
+}
+
+.switch.active {
+  background-color: #4f46e5; /* Or your preferred brand purple/blue */
+}
+
+.slider {
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+
+.switch.active .slider {
+  transform: translateX(22px);
 }

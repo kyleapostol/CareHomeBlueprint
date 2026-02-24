@@ -1,35 +1,61 @@
 {
   "phase": "Licensing",
-  "description": "Regulatory submission, inspections, and approval milestones.",
+  "description": "The formal CDSS application process, orientations, and the physical plant inspection.",
   "sections": [
     {
+      "id": "orientations",
+      "title": "Mandatory Orientations",
+      "summary": "Complete the required CDSS training components before final submission.",
+      "bullets": [
+        {
+          "id": "lic-ori-01",
+          "label": "Complete Component I (Online)",
+          "detail": "This is a general overview of the licensing process. You must print and save the certificate of completion for your application packet."
+        },
+        {
+          "id": "lic-ori-02",
+          "label": "Attend Component II (Live/Virtual)",
+          "detail": "This is a detailed, category-specific orientation for ARFs. It covers Title 22 regulations in depth and allows you to ask questions to licensing staff."
+        }
+      ]
+    },
+    {
       "id": "application-packet",
-      "title": "Application Packet",
-      "summary": "Complete agency forms and attach required documentation.",
+      "title": "Part A & Part B Application",
+      "summary": "Submit the core legal and operational documents to the Centralized Applications Bureau (CAB).",
       "bullets": [
-        "Submit facility application and fee",
-        "Attach floor plans and emergency procedures",
-        "Provide administrator credentials and background clearances"
+        {
+          "id": "lic-app-01",
+          "label": "File LIC 200 & Application Fee",
+          "detail": "The primary application form. Fees for ARFs vary based on capacity (e.g., 1-6 beds or 7-15 beds). Fees are non-refundable."
+        },
+        {
+          "id": "lic-app-02",
+          "label": "Submit Part B (Operational Plan)",
+          "detail": "This includes your Program Design, LIC 309 (Admin Organization), and LIC 401 (Financial Plan). This is where you prove you can run the facility."
+        },
+        {
+          "id": "lic-app-03",
+          "label": "Attach LIC 999 (Disaster Plan)",
+          "detail": "Must include specific evacuation routes, emergency contacts, and transportation plans for residents with varying ambulatory statuses."
+        }
       ]
     },
     {
-      "id": "policy-manuals",
-      "title": "Policy and Procedure Manuals",
-      "summary": "Operational policies must match current ARF standards.",
+      "id": "inspections",
+      "title": "Pre-Licensing & Fire Clearance",
+      "summary": "The final hurdles before the license is issued.",
       "bullets": [
-        "Resident rights and grievance process",
-        "Medication management and incident reporting",
-        "Infection control and disaster preparedness policies"
-      ]
-    },
-    {
-      "id": "inspection-cycle",
-      "title": "Pre-Licensing Inspections",
-      "summary": "Prepare for regulatory walkthrough and deficiency corrections.",
-      "bullets": [
-        "Run internal mock inspection",
-        "Document corrective actions for any deficiencies",
-        "Track final sign-off from licensing authority"
+        {
+          "id": "lic-ins-01",
+          "label": "Request STD 850 (Fire Clearance)",
+          "detail": "Licensing will trigger this request to the State Fire Marshal. You must ensure all R-3.1 fire code requirements are met before they arrive."
+        },
+        {
+          "id": "lic-ins-02",
+          "label": "Pass the Pre-Licensing Inspection",
+          "detail": "An LPA (Licensing Program Analyst) will walk through the home to verify that everything in Part A and B matches the physical reality of the site."
+        }
       ]
     }
   ]
