@@ -4,40 +4,192 @@
   "sections": [
     {
       "id": "orientations",
-      "title": "Mandatory Orientations",
+      "title": "Orientations",
       "summary": "Complete the required CDSS training components before final submission.",
       "bullets": [
+        {
+          "id": "lic-ori-00",
+          "label": "Complete Initial Certification Training Program (ICTP)",
+          "detail": "The applicant must take an initial training course, pass an exam, and have a criminal record clearance."
+        },
         {
           "id": "lic-ori-01",
           "label": "Complete Component I (Online)",
           "detail": "This is a general overview of the licensing process. You must print and save the certificate of completion for your application packet."
-        },
-        {
-          "id": "lic-ori-02",
-          "label": "Attend Component II (Live/Virtual)",
-          "detail": "This is a detailed, category-specific orientation for ARFs. It covers Title 22 regulations in depth and allows you to ask questions to licensing staff."
         }
       ]
     },
     {
-      "id": "application-packet",
-      "title": "Part A & Part B Application",
+      "id": "application-packet-01",
+      "title": "Part A",
       "summary": "Submit the core legal and operational documents to the Centralized Applications Bureau (CAB).",
       "bullets": [
         {
-          "id": "lic-app-01",
-          "label": "File LIC 200 & Application Fee",
-          "detail": "The primary application form. Fees for ARFs vary based on capacity (e.g., 1-6 beds or 7-15 beds). Fees are non-refundable."
+          "id": "lic-app-200",
+          "label": "Application (LIC 200)",
+          "detail": "All applicants must sign the application, including each general partner. "
         },
         {
-          "id": "lic-app-02",
-          "label": "Submit Part B (Operational Plan)",
-          "detail": "This includes your Program Design, LIC 309 (Admin Organization), and LIC 401 (Financial Plan). This is where you prove you can run the facility."
+          "id": "lic-app-215",
+          "label": "Applicant Information (LIC 215)",
+          "detail": "The form must contain original signatures. The licensing agency will not accept photocopied signatures on this form. Reference statements must be current and should not be from relatives."
         },
         {
-          "id": "lic-app-03",
-          "label": "Attach LIC 999 (Disaster Plan)",
-          "detail": "Must include specific evacuation routes, emergency contacts, and transportation plans for residents with varying ambulatory statuses."
+          "id": "lic-app-308",
+          "label": "Designation of Administrative Responsibility (LIC 308)",
+          "detail": "At least one individual must be designated as the authorized person of the facility to act in the licensee’s absence. A LICENSEE CANNOT DESIGNATE HIM OR HERSELF. More than one staff person may be designated on a form."
+        },
+        {
+          "id": "lic-app-309",
+          "label": "Administrative Organization (LIC 309)",
+          "detail": "Individual applicants are NOT required to complete this form. This form must be completed if the applicant is a corporation, public agency, partnership, or limited liability company."
+        },
+        {
+          "id": "lic-app-400",
+          "label": "Affidavit Regarding Client Cash Resources (LIC 400)",
+          "detail": "This form must contain original signatures. signatures on this form. The licensing agency will not accept photocopied"
+        },
+        {
+          "id": "lic-app-402",
+          "label": "Surety Bond (LIC 402)",
+          "detail": "Compare the LIC 402 to ensure that the bond is in the amount indicated on the LIC 400."
+        },
+        {
+          "id": "lic-app-401",
+          "label": "Monthly Operating Statement (LIC 401)",
+          "detail": "All facility operating costs must be indicated and reasonable (i.e., salaries are shown as at least minimum wage). Approximately 25 percent of the salaries should normally be added for fringe benefits. benefits are not applicable, the application should so state and explain why. If fringe benefits are not applicable, the application should so state and explain why"
+        },
+        {
+          "id": "lic-app-401a",
+          "label": "Supplemental Financial Information (LIC 401a)",
+          "detail": "Part I is to reflect all other income and expenses, excluding the facility income. Part I is to be completed by individual applicants and each general partner. Part II is to be completed by all applicants"
+        },
+        {
+          "id": "lic-app-403",
+          "label": "Balance Sheet (LIC 403)",
+          "detail": "The information provided is to reflect assets and liabilities concerning all activities of the owners, not just those related to the operation of the facility."
+        },
+        {
+          "id": "lic-app-403a",
+          "label": "Balance Sheet Supplemental Schedule (LIC 403a)",
+          "detail": "Cash in the bank will be verified with the use of the LIC 404."
+        },
+        {
+          "id": "lic-app-404",
+          "label": "Financial Information Release and Verification (LIC 404)",
+          "detail": "If readily accessible, a verifiable line of credit from a reputable financial institution (i.e., a bank, savings and loan, credit union) is acceptable for use as start-up funds. The credit check process requires certain past debts be brought current."
+        },
+        {
+          "id": "lic-app-500",
+          "label": "Personnel Report (LIC 500)",
+          "detail": "All planned employee positions are to be shown on this form. Include days and hours staff will be scheduled for duty. The licensing agency will review to ensure there is required staff coverage for all hours of operation."
+        },
+        {
+          "id": "lic-app-501",
+          "label": "Personnel Record (LIC 501)",
+          "detail": "This form is to be signed and submitted to the licensing agency with the application only for directors/administrators or Group Home program managers who are not licensees. All other staff forms are to be kept on file for review at the facility."
+        },
+        {
+          "id": "lic-app-503",
+          "label": "Health Screening Report – Facility Personnel (LIC 503)",
+          "detail": "Health screening, at time of application, must be less than 1 year old for applicants."
+        },
+        {
+          "id": "lic-app-508",
+          "label": "Criminal Record Statement (LIC 508 / LIC 508D)",
+          "detail": "One form each is required for the applicant or designee and administrator, if applicable to the licensing catagory (i.e. facility is required to have an administrator)."
+        },
+        {
+          "id": "lic-app-610",
+          "label": "Emergency Disaster Plan (LIC 610D)",
+          "detail": "If the property is not currently occupied by the applicant, the use of the relocation site requires authorization from the agency or person currently in possession. This authorization should be verified in writing."
+        },
+        {
+          "id": "lic-app-999",
+          "label": "Facility Sketch (LIC 999)",
+          "detail": "Door and window exits must be shown. LIC 610/LIC 610A Emergency Disaster Plan. Indicate exit routes by number as shown on the"
+        },
+        {
+          "id": "lic-app-9054",
+          "label": "Fire Inspection (LIC 9054)",
+          "detail": "As part of the application process, the licensing agency is responsible for obtaining a fire safety inspection from the local fire inspection authority having jurisdiction in the area where your facility is located."
+        }
+      ]
+    },
+    {
+      "id": "application-packet-02",
+      "title": "Part B",
+      "summary": "Submit the core legal and operational documents to the Centralized Applications Bureau (CAB).",
+      "bullets": [
+        {
+          "id": "lic-app-b1",
+          "label": "Partnership Agreement/Articles of Incorporation/Articles of Organization",
+          "detail": "Information contained in a partnership agreement, articles of incorporation or articles of organization gives the licensing agency information concerning who is ultimately responsible for which functions in the facility. This information is especially necessary when there are unresolved problems needing attention. The licensing agency must know who to contact regarding the operation of the facility."
+        },
+                {
+          "id": "lic-app-b2",
+          "label": "Verification of Administrator Qualifications and Certification",
+          "detail": "Information contained in a partnership agreement, articles of incorporation or articles of organization gives the licensing agency information concerning who is ultimately responsible for which functions in the facility. This information is especially necessary when there are unresolved problems needing attention. The licensing agency must know who to contact regarding the operation of the facility."
+        },
+                {
+          "id": "lic-app-b4",
+          "label": "Job Description - each position",
+          "detail": "Information contained in a partnership agreement, articles of incorporation or articles of organization gives the licensing agency information concerning who is ultimately responsible for which functions in the facility. This information is especially necessary when there are unresolved problems needing attention. The licensing agency must know who to contact regarding the operation of the facility."
+        },
+                {
+          "id": "lic-app-b5",
+          "label": "B5. Personnel Policies",
+          "detail": "Information contained in a partnership agreement, articles of incorporation or articles of organization gives the licensing agency information concerning who is ultimately responsible for which functions in the facility. This information is especially necessary when there are unresolved problems needing attention. The licensing agency must know who to contact regarding the operation of the facility."
+        },
+                {
+          "id": "lic-app-b6",
+          "label": "Inservice Training for Staff",
+          "detail": "Information contained in a partnership agreement, articles of incorporation or articles of organization gives the licensing agency information concerning who is ultimately responsible for which functions in the facility. This information is especially necessary when there are unresolved problems needing attention. The licensing agency must know who to contact regarding the operation of the facility."
+        },
+                {
+          "id": "lic-app-b7",
+          "label": "Facility Program Description",
+          "detail": "Information contained in a partnership agreement, articles of incorporation or articles of organization gives the licensing agency information concerning who is ultimately responsible for which functions in the facility. This information is especially necessary when there are unresolved problems needing attention. The licensing agency must know who to contact regarding the operation of the facility."
+        },
+                {
+          "id": "lic-app-b8",
+          "label": "Rules of Discipline/Personal Rights",
+          "detail": "Information contained in a partnership agreement, articles of incorporation or articles of organization gives the licensing agency information concerning who is ultimately responsible for which functions in the facility. This information is especially necessary when there are unresolved problems needing attention. The licensing agency must know who to contact regarding the operation of the facility."
+        },
+                {
+          "id": "lic-app-b9",
+          "label": "Admission Policies",
+          "detail": "Information contained in a partnership agreement, articles of incorporation or articles of organization gives the licensing agency information concerning who is ultimately responsible for which functions in the facility. This information is especially necessary when there are unresolved problems needing attention. The licensing agency must know who to contact regarding the operation of the facility."
+        },
+                {
+          "id": "lic-app-b10",
+          "label": "Sample Menu",
+          "detail": "Information contained in a partnership agreement, articles of incorporation or articles of organization gives the licensing agency information concerning who is ultimately responsible for which functions in the facility. This information is especially necessary when there are unresolved problems needing attention. The licensing agency must know who to contact regarding the operation of the facility."
+        },
+                {
+          "id": "lic-app-b11",
+          "label": "Control of Property",
+          "detail": "Information contained in a partnership agreement, articles of incorporation or articles of organization gives the licensing agency information concerning who is ultimately responsible for which functions in the facility. This information is especially necessary when there are unresolved problems needing attention. The licensing agency must know who to contact regarding the operation of the facility."
+        },
+                {
+          "id": "lic-app-b12",
+          "label": "Bacteriological Analysis of Private Water Supply (When Water for Human Consumption is from a Private Source)",
+          "detail": "Information contained in a partnership agreement, articles of incorporation or articles of organization gives the licensing agency information concerning who is ultimately responsible for which functions in the facility. This information is especially necessary when there are unresolved problems needing attention. The licensing agency must know who to contact regarding the operation of the facility."
+        },
+                {
+          "id": "lic-app-b15",
+          "label": "Neighborhood Complaint Policy ",
+          "detail": "Information contained in a partnership agreement, articles of incorporation or articles of organization gives the licensing agency information concerning who is ultimately responsible for which functions in the facility. This information is especially necessary when there are unresolved problems needing attention. The licensing agency must know who to contact regarding the operation of the facility."
+        },
+                {
+          "id": "lic-app-b16",
+          "label": "First Aid Card",
+          "detail": "Information contained in a partnership agreement, articles of incorporation or articles of organization gives the licensing agency information concerning who is ultimately responsible for which functions in the facility. This information is especially necessary when there are unresolved problems needing attention. The licensing agency must know who to contact regarding the operation of the facility."
+        },
+                {
+          "id": "lic-app-b17",
+          "label": "Orientation Certification",
+          "detail": "Information contained in a partnership agreement, articles of incorporation or articles of organization gives the licensing agency information concerning who is ultimately responsible for which functions in the facility. This information is especially necessary when there are unresolved problems needing attention. The licensing agency must know who to contact regarding the operation of the facility."
         }
       ]
     },

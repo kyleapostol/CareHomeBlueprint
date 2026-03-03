@@ -32,15 +32,6 @@ export default function ArfPage() {
           </div>
         </div>
 
-        {/* <header className="arf-header">
-          <p className="arf-eyebrow">ARF Guide</p>
-          <h1>Adult Residential Facility Roadmap</h1>
-          <p className="arf-subtitle">
-            Follow each phase in order. Expand any section to review key actions,
-            owners, and completion criteria.
-          </p>
-        </header> */}
-
       </main>
     </DisclaimerGate>
   );
