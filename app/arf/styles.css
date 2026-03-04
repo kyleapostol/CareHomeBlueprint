@@ -6,6 +6,8 @@
   --arf-accent: #9a3412;
   --arf-border: #e5e7eb;
   --arf-shadow: 0 10px 30px rgba(20, 33, 61, 0.08);
+  --arf-accent: #9a3412; /* Your current Orange */
+  --arf-section-accent: #1e293b; /* New Slate Blue for Sections */
 }
 
 .page {
@@ -144,6 +146,18 @@
 /* Responsive switches */
 .mobile-only { display: block; }
 .desktop-only { display: none; }
+
+/* Add a specific class for the active section state */
+.nav-item.is-section-active {
+  border-color: var(--arf-section-accent);
+  box-shadow: 0 0 0 1px var(--arf-section-accent);
+  background: #f8fafc; /* Very light blue tint */
+}
+
+/* Optional: Update the section title color to match */
+.nav-item.is-section-active .nav-title {
+  color: var(--arf-section-accent);
+}
 
 @media (min-width: 1024px) {
   .page {

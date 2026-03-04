@@ -20,17 +20,19 @@ export default function DesktopArf({ phases }: Props) {
 
   const [activeSectionId, setActiveSectionId] = useState<string>(sections[0]?.id ?? '');
   
-  // Refined state type to allow both Sections and individual Bullets
+  // State for hover/active details in the right panel
   const [activeDetail, setActiveDetail] = useState<ArfSection | ArfBullet | null>(null);
 
   const [isChecklistMode, setIsChecklistMode] = useState(false);
   const [completedIds, setCompletedIds] = useState<string[]>([]);
 
+  // Load progress from local storage
   useEffect(() => {
     const saved = localStorage.getItem('carehome-navigator-v1');
     if (saved) setCompletedIds(JSON.parse(saved));
   }, []);
 
+  // Save progress to local storage
   useEffect(() => {
     localStorage.setItem('carehome-navigator-v1', JSON.stringify(completedIds));
   }, [completedIds]);
@@ -47,6 +49,7 @@ export default function DesktopArf({ phases }: Props) {
     return Math.round((completed / total) * 100);
   }, [sections, completedIds]);
 
+  // Sync section selection when changing phases
   useEffect(() => {
     setActiveSectionId((prev) => {
       const stillExists = sections.some((s) => s.id === prev);
@@ -61,6 +64,7 @@ export default function DesktopArf({ phases }: Props) {
     <section className="arf-desktop" aria-label="ARF desktop navigator">
       {/* LEFT: Navigation */}
       <aside className="arf-left">
+        {/* Phase Navigation (Orange/Primary) */}
         <div className="panel">
           <div className="panel-label">Phases</div>
           <div className="nav-list">
@@ -81,6 +85,7 @@ export default function DesktopArf({ phases }: Props) {
           </div>
         </div>
 
+        {/* Section Navigation (Slate/Differentiated) */}
         <div className="panel">
           <div className="panel-label">Sections</div>
           <div className="nav-list">
@@ -90,7 +95,8 @@ export default function DesktopArf({ phases }: Props) {
                 <button
                   key={s.id}
                   type="button"
-                  className={`nav-item compact ${selected ? 'is-active' : ''}`}
+                  // Using the new specific section active class
+                  className={`nav-item compact ${selected ? 'is-section-active' : ''}`}
                   onClick={() => setActiveSectionId(s.id)}
                   onMouseEnter={() => setActiveDetail(s)}
                   onMouseLeave={() => setActiveDetail(null)}
@@ -115,7 +121,9 @@ export default function DesktopArf({ phases }: Props) {
             <div className="flex items-center gap-6">
               {isChecklistMode && (
                 <div className="flex flex-col items-end">
-                  <span className="text-xs font-bold text-amber-800 uppercase tracking-wide">{phasePercentage}% Phase Complete</span>
+                  <span className="text-xs font-bold text-amber-800 uppercase tracking-wide">
+                    {phasePercentage}% Phase Complete
+                  </span>
                   <div className="w-32 h-2 bg-gray-200 rounded-full mt-1.5 overflow-hidden">
                     <div 
                       className="h-full bg-amber-600 transition-all duration-500 ease-out" 
@@ -191,14 +199,14 @@ export default function DesktopArf({ phases }: Props) {
         </div>
       </main>
 
-      {/* RIGHT: Context */}
+      {/* RIGHT: Context / Guidance */}
       <aside className="arf-right">
         <div className="panel">
           {activeDetail ? (
             <div className="detail-view">
               <div className="panel-label">Expert Guidance</div>
               
-              <h3 className="nav-title" style={{ marginBottom: '0.5rem', color: 'var(--primary)' }}>
+              <h3 className="nav-title" style={{ marginBottom: '0.5rem', color: 'var(--arf-accent)' }}>
                 {'label' in activeDetail ? activeDetail.label : activeDetail.title}
               </h3>
 
@@ -210,7 +218,6 @@ export default function DesktopArf({ phases }: Props) {
                 )}
               </div>
 
-              {/* If hovering a section, tell them to hover items for specific Title 22 info */}
               {(!('detail' in activeDetail)) && (
                 <div className="nav-sub" style={{ marginTop: '1.5rem', fontStyle: 'italic', opacity: 0.7 }}>
                   Hover over items for specific Title 22/17 regulations.

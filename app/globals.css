@@ -52,7 +52,7 @@ body {
 .topbar-left {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 24px;
 }
 
 .topbar-left img {
@@ -100,14 +100,6 @@ body {
   background: rgba(0, 0, 0, 0.03);
 }
 
-/* .logoWrap {
-  position: relative;
-  width: 120px;    
-  height: 80px;
-  overflow: hidden; 
-  flex: 0 0 auto;
-  } 
-*/
 
 .logoWrap {
   display: flex;
@@ -116,7 +108,7 @@ body {
 .logoWrap img {
   object-fit: cover;     /* fills wrapper */
   object-position: center;
-  transform: scale(1.25); /* “zoom in” to reduce visible padding */
+  transform: scale(3); /* “zoom in” to reduce visible padding */
 }
 
 /* Progress & Toggle Container */
@@ -176,3 +168,71 @@ body {
 .switch.active .slider {
   transform: translateX(22px);
 }
+
+
+/* Menu */
+
+.mpp-menu-card {
+    @apply bg-white w-full min-w-[320px] rounded-xl overflow-hidden shadow-2xl border border-slate-100;
+  }
+
+  .mpp-menu-header {
+    @apply bg-slate-50 px-6 py-3 border-b border-slate-100;
+  }
+
+  .mpp-menu-label {
+    @apply text-[10px] font-bold uppercase tracking-widest text-slate-400;
+  }
+
+  /* List Styling */
+  .mpp-menu-list {
+    @apply py-2;
+  }
+
+  .mpp-menu-item-wrap {
+    @apply px-2;
+  }
+
+  .mpp-menu-link {
+    @apply flex items-center gap-4 px-4 py-3.5 rounded-lg text-base font-semibold transition-all duration-200;
+  }
+
+  /* Active State */
+  .mpp-menu-link.is-active {
+    @apply text-slate-700 hover:bg-orange-50 hover:text-orange-700 active:scale-[0.98];
+  }
+
+  /* Muted State - The "Lawsuit-Proof" Visual Mute */
+  .mpp-menu-link.is-muted {
+    @apply text-slate-300 opacity-40 grayscale cursor-not-allowed select-none;
+  }
+
+  .mpp-menu-icon {
+    @apply text-xl;
+  }
+
+  .is-muted .mpp-menu-icon {
+    @apply opacity-50;
+  }
+
+  .mpp-menu-content {
+    @apply flex flex-col flex-1;
+  }
+
+  .mpp-menu-status {
+    @apply text-[10px] font-bold text-slate-400;
+  }
+
+  /* Glow Indicator */
+  .mpp-menu-indicator {
+    @apply w-1.5 h-1.5 rounded-full bg-orange-500 shadow-[0_0_8px_rgba(249,115,22,0.6)];
+  }
+
+  /* Footer */
+  .mpp-menu-footer {
+    @apply mt-2 p-4 bg-slate-50 text-center border-t border-slate-100;
+  }
+
+  .mpp-menu-credits {
+    @apply text-[11px] text-slate-500 italic;
+  }
