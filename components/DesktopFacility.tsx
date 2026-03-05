@@ -1,38 +1,37 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import type { ArfSection, PhaseData, ArfBullet } from '@/types/types';
-import { Switch } from '@headlessui/react'
+import type { ArfSection as FacilitySection, PhaseData, ArfBullet as FacilityBullet } from '@/types/types';
+import { Switch } from '@headlessui/react';
 
-type PhaseKey = 'prerequisites' | 'licensing' | 'vendorization';
+export type PhaseKey = 'prerequisites' | 'licensing' | 'vendorization';
+export type FacilityType = 'arf' | 'rcfe' | 'adp';
 
 type Props = {
   phases: Record<PhaseKey, PhaseData>;
+  facilityType: FacilityType;
 };
 
 const PHASE_ORDER: PhaseKey[] = ['prerequisites', 'licensing', 'vendorization'];
 
-export default function DesktopArf({ phases }: Props) {
+export default function DesktopFacility({ phases, facilityType }: Props) {
   const [activePhase, setActivePhase] = useState<PhaseKey>('prerequisites');
 
   const phaseData = phases[activePhase];
-  const sections: ArfSection[] = phaseData.sections ?? [];
+  const sections: FacilitySection[] = phaseData.sections ?? [];
 
   const [activeSectionId, setActiveSectionId] = useState<string>(sections[0]?.id ?? '');
   
-  // State for hover/active details in the right panel
-  const [activeDetail, setActiveDetail] = useState<ArfSection | ArfBullet | null>(null);
+  const [activeDetail, setActiveDetail] = useState<FacilitySection | FacilityBullet | null>(null);
 
   const [isChecklistMode, setIsChecklistMode] = useState(false);
   const [completedIds, setCompletedIds] = useState<string[]>([]);
 
-  // Load progress from local storage
   useEffect(() => {
     const saved = localStorage.getItem('carehome-navigator-v1');
     if (saved) setCompletedIds(JSON.parse(saved));
   }, []);
 
-  // Save progress to local storage
   useEffect(() => {
     localStorage.setItem('carehome-navigator-v1', JSON.stringify(completedIds));
   }, [completedIds]);
@@ -49,7 +48,6 @@ export default function DesktopArf({ phases }: Props) {
     return Math.round((completed / total) * 100);
   }, [sections, completedIds]);
 
-  // Sync section selection when changing phases
   useEffect(() => {
     setActiveSectionId((prev) => {
       const stillExists = sections.some((s) => s.id === prev);
@@ -61,10 +59,8 @@ export default function DesktopArf({ phases }: Props) {
   const bullets = activeSection?.bullets ?? [];
 
   return (
-    <section className="arf-desktop" aria-label="ARF desktop navigator">
-      {/* LEFT: Navigation */}
-      <aside className="arf-left">
-        {/* Phase Navigation (Orange/Primary) */}
+    <section className="mpp-desktop-grid" aria-label={`${facilityType} desktop navigator`}>
+      <aside className="mpp-left">
         <div className="panel">
           <div className="panel-label">Phases</div>
           <div className="nav-list">
@@ -85,7 +81,6 @@ export default function DesktopArf({ phases }: Props) {
           </div>
         </div>
 
-        {/* Section Navigation (Slate/Differentiated) */}
         <div className="panel">
           <div className="panel-label">Sections</div>
           <div className="nav-list">
@@ -95,8 +90,7 @@ export default function DesktopArf({ phases }: Props) {
                 <button
                   key={s.id}
                   type="button"
-                  // Using the new specific section active class
-                  className={`nav-item compact ${selected ? 'is-section-active' : ''}`}
+                  className={`nav-item compact ${selected ? 'is-active' : ''}`}
                   onClick={() => setActiveSectionId(s.id)}
                   onMouseEnter={() => setActiveDetail(s)}
                   onMouseLeave={() => setActiveDetail(null)}
@@ -109,48 +103,47 @@ export default function DesktopArf({ phases }: Props) {
         </div>
       </aside>
 
-      {/* CENTER: Content */}
-      <main className="arf-main">
+      {/* CENTER: Content - Swapped to legacy mpp-main */}
+      <main className="mpp-main">
         <div className="panel">
-          <div className="main-header flex justify-between items-start mb-6">
+          <div className="main-header sticky top-0 bg-white z-10">
             <div>
-              <div className="main-phase text-2xl font-bold text-gray-900">{phaseData.phase}</div>
-              {phaseData.description && <div className="main-desc text-gray-600 mt-1">{phaseData.description}</div>}
+              <div className="main-phase">{phaseData.phase}</div>
+              {phaseData.description && <div className="main-desc">{phaseData.description}</div>}
             </div>
             
             <div className="flex items-center gap-6">
-              {isChecklistMode && (
-                <div className="flex flex-col items-end">
-                  <span className="text-xs font-bold text-amber-800 uppercase tracking-wide">
-                    {phasePercentage}% Phase Complete
-                  </span>
-                  <div className="w-32 h-2 bg-gray-200 rounded-full mt-1.5 overflow-hidden">
-                    <div 
-                      className="h-full bg-amber-600 transition-all duration-500 ease-out" 
-                      style={{ width: `${phasePercentage}%` }} 
-                    />
-                  </div>
-                </div>
-              )}
-
-              <div className="flex items-center gap-3">
-                <span className={`text-sm font-medium ${isChecklistMode ? 'text-amber-900' : 'text-gray-500'}`}>
+              <div className="mpp-toggle-container">
+                <span className={`mpp-toggle-label ${isChecklistMode ? 'is-active' : ''}`}>
                   Checklist Mode
                 </span>
                 <Switch
                   checked={isChecklistMode}
                   onChange={setIsChecklistMode}
-                  className={`${isChecklistMode ? 'bg-amber-800' : 'bg-gray-300'} relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2`}
+                  className={`mpp-switch ${isChecklistMode ? 'is-active' : 'is-inactive'}`}
                 >
                   <span className="sr-only">Toggle Checklist Mode</span>
-                  <span className={`${isChecklistMode ? 'translate-x-5' : 'translate-x-1'} inline-block h-4 w-4 transform rounded-full bg-white transition-transform`} />
+                  <span className={`mpp-switch-thumb ${isChecklistMode ? 'is-active' : 'is-inactive'}`} />
                 </Switch>
               </div>
+
+              {/* Kept new MPP classes for progress/toggles as they don't have legacy equivalents */}
+              {isChecklistMode && (
+                <div className="mpp-progress-container">
+                  <span className="mpp-progress-label">{phasePercentage}% Phase Complete</span>
+                  <div className="mpp-progress-track">
+                    <div 
+                      className="mpp-progress-fill" 
+                      style={{ width: `${phasePercentage}%` }} 
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
           {activeSection ? (
-            <div className="section">
+            <div className="mpp-section-container">
               <h2 className="section-title">{activeSection.title}</h2>
               {activeSection.summary && <p className="section-summary">{activeSection.summary}</p>}
 
@@ -161,26 +154,22 @@ export default function DesktopArf({ phases }: Props) {
                     return (
                       <li
                         key={`${activeSection.id}-${idx}`}
-                        className={`item group relative p-3 rounded-lg transition-colors ${
-                          isChecklistMode ? 'cursor-pointer hover:bg-amber-50' : 'hover:bg-gray-50'
-                        }`}
+                        className={`item group ${isChecklistMode ? 'interactive cursor-pointer hover:bg-slate-50' : ''}`}
                         onMouseEnter={() => setActiveDetail(bullet)}
                         onMouseLeave={() => setActiveDetail(null)}
                         onClick={() => isChecklistMode && toggleId(bullet.id)}
                       >
-                        <div className="flex items-start gap-3">
+                        <div className="mpp-item-content">
                           {isChecklistMode && (
-                            <div className={`mt-0.5 flex-shrink-0 w-5 h-5 rounded border flex items-center justify-center transition-colors ${
-                              isCompleted ? 'bg-amber-600 border-amber-600' : 'border-gray-300 bg-white'
-                            }`}>
+                            <div className={`mpp-checkbox ${isCompleted ? 'is-active' : 'is-inactive'}`}>
                               {isCompleted && (
-                                <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                                <svg className="mpp-checkbox-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                                 </svg>
                               )}
                             </div>
                           )}
-                          <div className={`item-title text-gray-800 ${isChecklistMode && isCompleted ? 'opacity-50 line-through' : ''}`}>
+                          <div className={`item-title ${isChecklistMode && isCompleted ? 'opacity-40 grayscale line-through' : ''}`}>
                             {bullet.label}
                           </div>
                         </div>
@@ -199,18 +188,18 @@ export default function DesktopArf({ phases }: Props) {
         </div>
       </main>
 
-      {/* RIGHT: Context / Guidance */}
-      <aside className="arf-right">
+      {/* RIGHT: Context - Swapped to legacy mpp-right */}
+      <aside className="mpp-right">
         <div className="panel">
           {activeDetail ? (
-            <div className="detail-view">
+            <div className="mpp-detail-view">
               <div className="panel-label">Expert Guidance</div>
               
-              <h3 className="nav-title" style={{ marginBottom: '0.5rem', color: 'var(--arf-accent)' }}>
+              <h3 className="mpp-detail-title">
                 {'label' in activeDetail ? activeDetail.label : activeDetail.title}
               </h3>
 
-              <div className="detail-content" style={{ fontSize: '0.95rem', lineHeight: '1.5' }}>
+              <div className="mpp-detail-content">
                 {'detail' in activeDetail ? (
                   <p>{activeDetail.detail}</p>
                 ) : (
@@ -219,23 +208,23 @@ export default function DesktopArf({ phases }: Props) {
               </div>
 
               {(!('detail' in activeDetail)) && (
-                <div className="nav-sub" style={{ marginTop: '1.5rem', fontStyle: 'italic', opacity: 0.7 }}>
+                <div className="mpp-detail-hint">
                   Hover over items for specific Title 22/17 regulations.
                 </div>
               )}
             </div>
           ) : isChecklistMode ? (
-            <div className="progress-view">
-              <div className="panel-label text-xs font-bold uppercase tracking-wider text-gray-500 mb-4">Section Completion</div>
+            <div className="mpp-detail-view">
+              <div className="panel-label">Section Completion</div>
               
-              <div className="flex flex-col items-center justify-center py-8 text-center">
-                <div className="text-4xl font-bold text-amber-600 mb-2">
+              <div className="mpp-progress-card">
+                <div className="mpp-progress-percentage">
                   {bullets.length ? Math.round((bullets.filter((b) => completedIds.includes(b.id)).length / bullets.length) * 100) : 0}%
                 </div>
-                <p className="text-sm text-gray-600">
+                <p className="mpp-progress-text">
                   {bullets.filter((b) => completedIds.includes(b.id)).length} of {bullets.length} items completed
                 </p>
-                <p className="text-sm font-medium text-gray-900 mt-1">{activeSection.title}</p>
+                <p className="mpp-progress-subtext">{activeSection.title}</p>
               </div>
             </div>
           ) : (
@@ -251,7 +240,7 @@ export default function DesktopArf({ phases }: Props) {
 
               {phaseData.commonDelays?.length ? (
                 <>
-                  <div className="panel-subhead" style={{ marginTop: '1.5rem' }}>Common delays</div>
+                  <div className="mpp-subhead">Common delays</div>
                   <ul className="bullets">
                     {phaseData.commonDelays.map((t, i) => <li key={i}>{t}</li>)}
                   </ul>
@@ -260,7 +249,7 @@ export default function DesktopArf({ phases }: Props) {
 
               {phaseData.reviewerFocus?.length ? (
                 <>
-                  <div className="panel-subhead" style={{ marginTop: '1.5rem' }}>What reviewers look for</div>
+                  <div className="mpp-subhead">What reviewers look for</div>
                   <ul className="bullets">
                     {phaseData.reviewerFocus.map((t, i) => <li key={i}>{t}</li>)}
                   </ul>

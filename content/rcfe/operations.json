@@ -1,0 +1,72 @@
+{
+  "phase": "Operations & Admissions",
+  "description": "Securing your first residents, working with placement agencies, and optional Medi-Cal ALW enrollment.",
+  "sections": [
+    {
+      "id": "marketing-placement",
+      "title": "Marketing & Resident Intake",
+      "summary": "Strategies and legal requirements for admitting private-pay residents into your RCFE.",
+      "bullets": [
+        {
+          "id": "rcfe-ops-01",
+          "label": "Contract with Placement Agencies",
+          "detail": "Establish referral agreements with agencies like 'A Place for Mom' or local senior placement specialists. Standard referral fees are typically 50-100% of the first month's rent."
+        },
+        {
+          "id": "rcfe-ops-02",
+          "label": "Execute the Admission Agreement",
+          "detail": "Sign the formal contract with the resident or their responsible party. It must strictly adhere to the admission policies approved by CDSS in your Part B application."
+        },
+        {
+          "id": "rcfe-ops-03",
+          "label": "Obtain Physician's Report (LIC 602A)",
+          "detail": "Before admission, ensure the prospective resident has a completed LIC 602A signed by a physician detailing their medical needs, TB clearance, and ambulatory status."
+        },
+        {
+          "id": "rcfe-ops-04",
+          "label": "Complete Needs and Services Plan",
+          "detail": "Conduct a pre-admission appraisal to evaluate the resident's physical, cognitive, and social needs, and create a formal plan to accommodate them."
+        }
+      ]
+    },
+    {
+      "id": "alw-enrollment",
+      "title": "Assisted Living Waiver (ALW) - Optional",
+      "summary": "The process to become a Medi-Cal provider to accept subsidized residents.",
+      "bullets": [
+        {
+          "id": "rcfe-alw-01",
+          "label": "Obtain your RCFE License First",
+          "detail": "You cannot apply for the ALW program until your facility is fully licensed by CDSS."
+        },
+        {
+          "id": "rcfe-alw-02",
+          "label": "Submit ALW Provider Application",
+          "detail": "Apply through the Department of Health Care Services (DHCS) to become an enrolled Medi-Cal provider for the Assisted Living Waiver program."
+        },
+        {
+          "id": "rcfe-alw-03",
+          "label": "Contract with Care Coordination Agencies (CCAs)",
+          "detail": "Once approved, partner with regional CCAs who assess eligible Medi-Cal beneficiaries and place them into ALW-approved facilities."
+        }
+      ]
+    },
+    {
+      "id": "post-licensing",
+      "title": "Post-Licensing Compliance",
+      "summary": "Crucial regulatory steps immediately following the issuance of your license.",
+      "bullets": [
+        {
+          "id": "rcfe-post-01",
+          "label": "Hire and Clear Staff",
+          "detail": "Before any staff member begins work, they must pass their live scan background check, obtain a health screening/TB test, and complete their required initial training."
+        },
+        {
+          "id": "rcfe-post-02",
+          "label": "Prepare for the 90-Day Inspection",
+          "detail": "An LPA will conduct an unannounced visit within the first 90 days of operation to ensure you are actively following Title 22 regulations and your approved Plan of Operation."
+        }
+      ]
+    }
+  ]
+}

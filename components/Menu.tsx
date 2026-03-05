@@ -9,7 +9,7 @@ interface MenuProps {
 
 const menuItems = [
   { label: 'Adult Residential Facility (ARF)', href: '/arf', active: true, icon: '🏠' },
-  { label: 'Residential Care Facility for the Elderly (RCFE)', href: '/rcfe', active: false, icon: '👴' },
+  { label: 'Residential Care Facility for the Elderly (RCFE)', href: '/rcfe', active: true, icon: '👴' },
   { label: 'Adult Day Program (ADP)', href: '/adp', active: false, icon: '☀️' },
   { label: 'Contact Info', href: '/contact', active: true, icon: '📧' },
 ];

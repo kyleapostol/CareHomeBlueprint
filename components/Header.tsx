@@ -2,12 +2,25 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import Menu from '@/components/arf/Menu';
+import Menu from '@/components/Menu';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
+    const pathname = usePathname() || '';
+
+    // Automatically determine the facility theme based on the URL route
+    let facilityType = 'arf'; // Default
+    if (pathname.includes('/rcfe')) facilityType = 'rcfe';
+    if (pathname.includes('/adp')) facilityType = 'adp';
+
+    const facilityTitles = {
+        arf: 'ARF Licensing Navigator',
+        rcfe: 'RCFE Licensing Navigator',
+        adp: 'ADP Licensing Navigator'
+    };
 
     // Handler to close if clicking outside of the menuRef area
     useEffect(() => {
@@ -27,11 +40,14 @@ export default function Header() {
     }, [isMenuOpen]);
 
     return (
-        <header className="relative w-full border-b border-slate-200 bg-white/90 backdrop-blur-md z-[100]">
-            <div className="flex items-center justify-between px-6 py-4 max-w-7xl mx-auto">
+        <header 
+            className="topbar" 
+            data-facility-type={facilityType} // Crucial: This passes the theme colors into the header!
+        >
+            <div className="topbar-inner">
 
                 {/* Brand & Navigator Title */}
-                <div className="flex items-center gap-4">
+                <div className="topbar-left">
                     <Link href="/" className="flex items-center gap-4 hover:opacity-80 transition-opacity">
                         <Image
                             src="/logo_new.png"
@@ -41,11 +57,11 @@ export default function Header() {
                             className="rounded-lg shadow-sm"
                         />
                         <div className="flex flex-col">
-                            <span className="text-xl font-bold text-slate-900 leading-tight tracking-tight">
+                            <span className="topbar-title">
                                 MyProviderPath
                             </span>
-                            <span className="text-xs font-bold text-orange-600 uppercase tracking-widest">
-                                ARF Licensing Navigator
+                            <span className="topbar-subtitle">
+                                {facilityTitles[facilityType as keyof typeof facilityTitles]}
                             </span>
                         </div>
                     </Link>
@@ -54,11 +70,7 @@ export default function Header() {
                 {/* Menu Wrapper for Ref */}
                 <div className="relative" ref={menuRef}>
                     <button 
-                        className={`p-2.5 rounded-xl transition-all border ${
-                            isMenuOpen 
-                            ? 'bg-orange-50 border-orange-200 text-orange-600' 
-                            : 'bg-white border-slate-200 text-slate-600 hover:border-orange-300 shadow-sm'
-                        }`}
+                        className={`topbar-menu-btn ${isMenuOpen ? 'is-active' : ''}`}
                         aria-label="Toggle Menu"
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
                     >
@@ -67,7 +79,7 @@ export default function Header() {
 
                     {/* Menu Card */}
                     {isMenuOpen && (
-                        <div className="absolute top-[calc(100%+12px)] right-0 z-50 w-72 bg-white shadow-2xl rounded-2xl border border-slate-200 overflow-hidden ring-1 ring-black/5 animate-in slide-in-from-top-2 duration-200">
+                        <div className="mpp-menu-dropdown animate-in slide-in-from-top-2 duration-200">
                             {/* Passing activeOnly to mute non-ARF/Contact items */}
                             <Menu activeOnly={true} />
                         </div>
@@ -78,7 +90,7 @@ export default function Header() {
             {/* Shading Backdrop: Mutes the app content when menu is open */}
             {isMenuOpen && (
                 <div 
-                    className="fixed inset-0 top-[81px] bg-slate-900/40 backdrop-blur-[2px] z-40 transition-opacity" 
+                    className="topbar-backdrop" 
                     aria-hidden="true"
                 />
             )}

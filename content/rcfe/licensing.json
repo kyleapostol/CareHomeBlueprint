@@ -1,0 +1,199 @@
+{
+  "phase": "Licensing",
+  "description": "The formal CDSS application process, orientations, and the physical plant inspection for a Residential Care Facility for the Elderly (RCFE).",
+  "sections": [
+    {
+      "id": "orientations",
+      "title": "Orientations",
+      "summary": "Complete the required CDSS training components before final submission.",
+      "bullets": [
+        {
+          "id": "rcfe-ori-00",
+          "label": "Complete RCFE Initial Certification Training Program (ICTP)",
+          "detail": "The prospective administrator must complete the 80-hour RCFE Certification program, pass the state exam, and clear a criminal background check."
+        },
+        {
+          "id": "rcfe-ori-01",
+          "label": "Complete Component I (Online Orientation)",
+          "detail": "This provides a general overview of the RCFE licensing process. You must pay the orientation fee, complete the online modules, and save the certificate for your application packet."
+        }
+      ]
+    },
+    {
+      "id": "application-packet-01",
+      "title": "Part A",
+      "summary": "Submit the core legal, financial, and operational forms to the Centralized Applications Bureau (CAB).",
+      "bullets": [
+        {
+          "id": "rcfe-app-200",
+          "label": "Application (LIC 200)",
+          "detail": "The core application form for a Community Care Facility or RCFE. Must contain original signatures of all applicants or general partners."
+        },
+        {
+          "id": "rcfe-app-215",
+          "label": "Applicant Information (LIC 215)",
+          "detail": "Requires original signatures. Reference statements must be current and cannot be provided by relatives."
+        },
+        {
+          "id": "rcfe-app-308",
+          "label": "Designation of Facility Responsibility (LIC 308)",
+          "detail": "Designates the individual(s) authorized to act in the licensee's absence. A licensee cannot designate themselves. Essential for ensuring 24/7 administrative coverage."
+        },
+        {
+          "id": "rcfe-app-309",
+          "label": "Administrative Organization (LIC 309)",
+          "detail": "Required if the applicant is a corporation, public agency, partnership, or LLC. Not required for sole proprietorships."
+        },
+        {
+          "id": "rcfe-app-400",
+          "label": "Affidavit Regarding Client Cash Resources (LIC 400)",
+          "detail": "Details whether the facility will handle resident funds. Must contain original signatures."
+        },
+        {
+          "id": "rcfe-app-402",
+          "label": "Surety Bond (LIC 402)",
+          "detail": "Required if the facility safeguards resident cash resources. The bond amount must match the amount indicated on the LIC 400."
+        },
+        {
+          "id": "rcfe-app-401",
+          "label": "Monthly Operating Statement (LIC 401)",
+          "detail": "Projects all facility operating costs. Salaries must meet minimum wage, and ~25% should be added for fringe benefits unless specifically not applicable."
+        },
+        {
+          "id": "rcfe-app-401a",
+          "label": "Supplemental Financial Information (LIC 401a)",
+          "detail": "Reflects all other income and expenses outside of the facility income. Required to verify financial solvency."
+        },
+        {
+          "id": "rcfe-app-403",
+          "label": "Balance Sheet (LIC 403)",
+          "detail": "Reflects the total assets and liabilities of the owners, encompassing both facility-related and external finances."
+        },
+        {
+          "id": "rcfe-app-404",
+          "label": "Financial Information Release (LIC 404)",
+          "detail": "Authorizes CDSS to verify bank accounts and lines of credit. Used to confirm the 3-months of required operating capital."
+        },
+        {
+          "id": "rcfe-app-500",
+          "label": "Personnel Report (LIC 500)",
+          "detail": "Details all planned employee positions, including scheduled days and hours, to verify adequate staff coverage."
+        },
+        {
+          "id": "rcfe-app-501",
+          "label": "Personnel Record (LIC 501)",
+          "detail": "Submitted to licensing only for the administrator (if not the licensee). Other staff forms are kept on file at the facility."
+        },
+        {
+          "id": "rcfe-app-503",
+          "label": "Health Screening Report (LIC 503)",
+          "detail": "Verifies the applicant/administrator is in good health. Must be completed less than 1 year prior to application and include a TB test."
+        },
+        {
+          "id": "rcfe-app-508",
+          "label": "Criminal Record Statement (LIC 508)",
+          "detail": "Required for the applicant and the designated administrator to verify background clearance."
+        },
+        {
+          "id": "rcfe-app-610e",
+          "label": "Emergency Disaster Plan for RCFEs (LIC 610E)",
+          "detail": "RCFE-specific disaster plan detailing evacuation routes, emergency contacts, and relocation sites. Relocation sites require written authorization."
+        },
+        {
+          "id": "rcfe-app-999",
+          "label": "Facility Sketch (LIC 999)",
+          "detail": "Floor plan showing all rooms, door and window exits, and designated ambulatory/non-ambulatory bedrooms."
+        },
+        {
+          "id": "rcfe-app-9054",
+          "label": "Local Fire Inspection Authority Information (LIC 9054)",
+          "detail": "Provides CDSS with the contact information for the local fire jurisdiction to initiate the fire clearance process."
+        }
+      ]
+    },
+    {
+      "id": "application-packet-02",
+      "title": "Part B",
+      "summary": "Submit the facility's specific operational plans, policies, and procedures.",
+      "bullets": [
+        {
+          "id": "rcfe-app-b1",
+          "label": "Partnership Agreement/Articles of Incorporation/Organization",
+          "detail": "Establishes the legal framework and ownership structure of the facility, showing who holds ultimate liability and operational responsibility."
+        },
+        {
+          "id": "rcfe-app-b2",
+          "label": "Verification of Administrator Qualifications",
+          "detail": "A copy of the RCFE Administrator Certificate, resume, and proof of age (must be at least 21 years old) to verify qualifications."
+        },
+        {
+          "id": "rcfe-app-b4",
+          "label": "Job Descriptions",
+          "detail": "Detailed descriptions of duties and required qualifications for all facility roles, including caregivers, cooks, and activities coordinators."
+        },
+        {
+          "id": "rcfe-app-b5",
+          "label": "Personnel Policies",
+          "detail": "The facility's rules regarding staff conduct, scheduling, benefits, and disciplinary procedures."
+        },
+        {
+          "id": "rcfe-app-b6",
+          "label": "In-service Training for Staff",
+          "detail": "The schedule and curriculum for ongoing staff training, including mandatory RCFE topics like dementia care, medication assistance, and postural supports."
+        },
+        {
+          "id": "rcfe-app-b7",
+          "label": "Plan of Operation / Program Description",
+          "detail": "A comprehensive narrative detailing the facility's purpose, target population (elderly, dementia, etc.), services provided, and daily routines."
+        },
+        {
+          "id": "rcfe-app-b8",
+          "label": "Personal Rights",
+          "detail": "Documentation outlining how the facility will inform residents of their rights under Title 22, including the use of form LIC 613C-2."
+        },
+        {
+          "id": "rcfe-app-b9",
+          "label": "Admission Policies & Agreement",
+          "detail": "The criteria for accepting or discharging residents, along with a copy of the contract detailing fees, services, and eviction conditions."
+        },
+        {
+          "id": "rcfe-app-b10",
+          "label": "Sample Menu",
+          "detail": "A 30-day sample menu demonstrating nutritional compliance with dietary guidelines for the elderly, including accommodations for special diets."
+        },
+        {
+          "id": "rcfe-app-b11",
+          "label": "Control of Property",
+          "detail": "Proof of the right to operate on the premises, such as a deed, lease agreement, or a signed LIC 311A form from the property owner."
+        },
+        {
+          "id": "rcfe-app-b15",
+          "label": "Neighborhood Complaint Policy",
+          "detail": "Procedures for receiving, logging, and resolving complaints from surrounding neighbors to maintain good community relations."
+        },
+        {
+          "id": "rcfe-app-b18",
+          "label": "Dementia Care Plan (If Applicable)",
+          "detail": "If the facility intends to admit residents with dementia, a specialized plan detailing secured perimeters, specific staff training, and tailored activities must be submitted."
+        }
+      ]
+    },
+    {
+      "id": "inspections",
+      "title": "Pre-Licensing & Fire Clearance",
+      "summary": "The final inspections to ensure physical safety and compliance before the license is issued.",
+      "bullets": [
+        {
+          "id": "rcfe-ins-01",
+          "label": "Request STD 850 (Fire Clearance)",
+          "detail": "CDSS will submit this request to the local fire authority. The home must meet strict RCFE fire codes, including interconnected smoke alarms and proper exit pathways for non-ambulatory residents."
+        },
+        {
+          "id": "rcfe-ins-02",
+          "label": "Pass the Pre-Licensing Inspection",
+          "detail": "A Licensing Program Analyst (LPA) will conduct an on-site walkthrough to verify the home is fully furnished, safe, and perfectly matches the submitted Plan of Operation."
+        }
+      ]
+    }
+  ]
+}
