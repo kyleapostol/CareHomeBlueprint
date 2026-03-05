@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { ArfSection as FacilitySection, PhaseData, ArfBullet as FacilityBullet } from '@/types/types';
 import { Switch } from '@headlessui/react';
+import { toast } from 'sonner'; 
+import { useRouter } from 'next/navigation';
 
 export type PhaseKey = 'prerequisites' | 'licensing' | 'vendorization';
 export type FacilityType = 'arf' | 'rcfe' | 'adp';
@@ -15,17 +17,34 @@ type Props = {
 const PHASE_ORDER: PhaseKey[] = ['prerequisites', 'licensing', 'vendorization'];
 
 export default function DesktopFacility({ phases, facilityType }: Props) {
+  const router = useRouter();
   const [activePhase, setActivePhase] = useState<PhaseKey>('prerequisites');
 
   const phaseData = phases[activePhase];
   const sections: FacilitySection[] = phaseData.sections ?? [];
 
   const [activeSectionId, setActiveSectionId] = useState<string>(sections[0]?.id ?? '');
-  
   const [activeDetail, setActiveDetail] = useState<FacilitySection | FacilityBullet | null>(null);
 
   const [isChecklistMode, setIsChecklistMode] = useState(false);
   const [completedIds, setCompletedIds] = useState<string[]>([]);
+
+  // Integrated Handler for the Checklist Switch
+  const handleToggleChange = (enabled: boolean) => {
+    const token = localStorage.getItem('jwt');
+
+    if (enabled && !token) {
+      toast.error("Progress won't be saved", {
+        description: "Sign in to keep track of your licensing journey.",
+        duration: 5000,
+        action: {
+          label: "Sign In",
+          onClick: () => router.push('/login'),
+        },
+      });
+    }
+    setIsChecklistMode(enabled);
+  };
 
   useEffect(() => {
     const saved = localStorage.getItem('carehome-navigator-v1');
@@ -60,6 +79,7 @@ export default function DesktopFacility({ phases, facilityType }: Props) {
 
   return (
     <section className="mpp-desktop-grid" aria-label={`${facilityType} desktop navigator`}>
+      {/* LEFT: Sidebar panels */}
       <aside className="mpp-left">
         <div className="panel">
           <div className="panel-label">Phases</div>
@@ -103,7 +123,7 @@ export default function DesktopFacility({ phases, facilityType }: Props) {
         </div>
       </aside>
 
-      {/* CENTER: Content - Swapped to legacy mpp-main */}
+      {/* CENTER: Content */}
       <main className="mpp-main">
         <div className="panel">
           <div className="main-header sticky top-0 bg-white z-10">
@@ -119,15 +139,14 @@ export default function DesktopFacility({ phases, facilityType }: Props) {
                 </span>
                 <Switch
                   checked={isChecklistMode}
-                  onChange={setIsChecklistMode}
-                  className={`mpp-switch ${isChecklistMode ? 'is-active' : 'is-inactive'}`}
+                  onChange={handleToggleChange}
+                  className={`mpp-toggle-track ${isChecklistMode ? 'is-active' : ''}`}
                 >
                   <span className="sr-only">Toggle Checklist Mode</span>
-                  <span className={`mpp-switch-thumb ${isChecklistMode ? 'is-active' : 'is-inactive'}`} />
+                  <span className={`mpp-toggle-thumb ${isChecklistMode ? 'is-active' : ''}`} />
                 </Switch>
               </div>
 
-              {/* Kept new MPP classes for progress/toggles as they don't have legacy equivalents */}
               {isChecklistMode && (
                 <div className="mpp-progress-container">
                   <span className="mpp-progress-label">{phasePercentage}% Phase Complete</span>
@@ -188,17 +207,15 @@ export default function DesktopFacility({ phases, facilityType }: Props) {
         </div>
       </main>
 
-      {/* RIGHT: Context - Swapped to legacy mpp-right */}
+      {/* RIGHT: Context Panels */}
       <aside className="mpp-right">
         <div className="panel">
           {activeDetail ? (
             <div className="mpp-detail-view">
               <div className="panel-label">Expert Guidance</div>
-              
               <h3 className="mpp-detail-title">
                 {'label' in activeDetail ? activeDetail.label : activeDetail.title}
               </h3>
-
               <div className="mpp-detail-content">
                 {'detail' in activeDetail ? (
                   <p>{activeDetail.detail}</p>
@@ -206,8 +223,7 @@ export default function DesktopFacility({ phases, facilityType }: Props) {
                   <p>{'summary' in activeDetail ? activeDetail.summary : null}</p>
                 )}
               </div>
-
-              {(!('detail' in activeDetail)) && (
+              {!('detail' in activeDetail) && (
                 <div className="mpp-detail-hint">
                   Hover over items for specific Title 22/17 regulations.
                 </div>
@@ -216,7 +232,6 @@ export default function DesktopFacility({ phases, facilityType }: Props) {
           ) : isChecklistMode ? (
             <div className="mpp-detail-view">
               <div className="panel-label">Section Completion</div>
-              
               <div className="mpp-progress-card">
                 <div className="mpp-progress-percentage">
                   {bullets.length ? Math.round((bullets.filter((b) => completedIds.includes(b.id)).length / bullets.length) * 100) : 0}%
@@ -230,14 +245,12 @@ export default function DesktopFacility({ phases, facilityType }: Props) {
           ) : (
             <>
               <div className="panel-label">Phase Overview</div>
-
               {phaseData.timeline && (
                 <div className="meta-row">
                   <div className="meta-k">Typical timeline</div>
                   <div className="meta-v">{phaseData.timeline}</div>
                 </div>
               )}
-
               {phaseData.commonDelays?.length ? (
                 <>
                   <div className="mpp-subhead">Common delays</div>
@@ -246,7 +259,6 @@ export default function DesktopFacility({ phases, facilityType }: Props) {
                   </ul>
                 </>
               ) : null}
-
               {phaseData.reviewerFocus?.length ? (
                 <>
                   <div className="mpp-subhead">What reviewers look for</div>
@@ -255,7 +267,6 @@ export default function DesktopFacility({ phases, facilityType }: Props) {
                   </ul>
                 </>
               ) : null}
-              
               {!phaseData.timeline && !phaseData.commonDelays?.length && (
                 <div className="empty">
                   <div className="empty-title">Ready to start?</div>

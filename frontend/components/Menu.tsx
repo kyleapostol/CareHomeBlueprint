@@ -2,9 +2,11 @@
 
 import React from 'react';
 import Link from 'next/link';
+import AuthStatus from './AuthStatus';
 
 interface MenuProps {
   activeOnly?: boolean;
+  closeMenu?: () => void; // Added this prop
 }
 
 const menuItems = [
@@ -14,7 +16,7 @@ const menuItems = [
   { label: 'Contact Info', href: '/contact', active: true, icon: '📧' },
 ];
 
-export default function Menu({ activeOnly = false }: MenuProps) {
+export default function Menu({ activeOnly = false, closeMenu }: MenuProps) {
   return (
     <nav className="mpp-menu-card">
       <div className="mpp-menu-header">
@@ -29,7 +31,13 @@ export default function Menu({ activeOnly = false }: MenuProps) {
             <li key={item.label} className="mpp-menu-item-wrap">
               <Link 
                 href={isMuted ? '#' : item.href} 
-                onClick={(e) => isMuted && e.preventDefault()}
+                onClick={(e) => {
+                  if (isMuted) {
+                    e.preventDefault();
+                  } else if (closeMenu) {
+                    closeMenu(); // Close menu when a standard link is clicked!
+                  }
+                }}
                 className={`mpp-menu-link ${isMuted ? 'is-muted' : 'is-active'}`}
               >
                 <span className="mpp-menu-icon">{item.icon}</span>
@@ -46,8 +54,10 @@ export default function Menu({ activeOnly = false }: MenuProps) {
         })}
       </ul>
       
-      <div className="mpp-menu-footer">
-          <p className="mpp-menu-credits">Developed by Kyle Apostol</p>
+      {/* --- ADDED AUTH STATUS SECTION --- */}
+      <div className="border-t border-gray-100 mx-4 my-1"></div>
+      <div className="px-2 pb-2">
+        <AuthStatus closeMenu={closeMenu} />
       </div>
     </nav>
   );
