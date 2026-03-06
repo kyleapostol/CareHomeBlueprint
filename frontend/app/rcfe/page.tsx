@@ -1,6 +1,6 @@
-import PhaseTabs from '@/components/PhaseTabs';
-import DesktopFacility from '@/components/FacilityGuide';
+import FacilityGuide from '@/components/FacilityGuide';
 import DisclaimerGate from '@/components/DisclaimerGate';
+import { ChecklistProvider } from '@/app/contexts/ChecklistProvider';
 
 import type { PhaseData } from '@/types/types';
 
@@ -18,27 +18,21 @@ export default function RcfePage() {
 
   return (
     <DisclaimerGate>
-      <main className="page" data-facility-type="rcfe">
-        <div className="page-inner">
-          <header className="mpp-header">
-            <p className="mpp-eyebrow">RCFE Guide</p>
-            <h1>Residential Care Facility for the Elderly Roadmap</h1>
-            <p className="mpp-subtitle">
-              Follow each phase in order. Expand any section to review key actions, owners, and completion criteria.
-            </p>
-          </header>
+      <ChecklistProvider trackType="rcfe">
+        <main className="page" data-facility-type="rcfe">
+          <div className="page-inner">
+            <header className="mpp-header">
+              <p className="mpp-eyebrow">RCFE Guide</p>
+              <h1>Residential Care Facility for the Elderly Roadmap</h1>
+              <p className="mpp-subtitle">
+                Follow each phase in order. Expand any section to review key actions, owners, and completion criteria.
+              </p>
+            </header>
 
-          {/* Mobile */}
-          <div className="mobile-only">
-            <PhaseTabs facilityType="rcfe" phases={phases} />
+            <FacilityGuide facilityType="rcfe" phases={phases} />
           </div>
-
-          {/* Desktop */}
-          <div className="desktop-only">
-            <DesktopFacility facilityType="rcfe" phases={phases} />
-          </div>
-        </div>
-      </main>
+        </main>
+      </ChecklistProvider>
     </DisclaimerGate>
   );
 }

@@ -1,4 +1,3 @@
-// src/contexts/ChecklistProvider.tsx
 'use client';
 
 import React, {
@@ -9,145 +8,168 @@ import React, {
   useCallback,
   ReactNode,
 } from 'react';
-
-// 1. Import the real authentication hook
 import { useAuth } from './AuthProvider';
+import { toast } from 'sonner';
 
-/**
- * A simple debounce utility.
- * @param func The function to debounce.
- * @param waitFor The debounce delay in milliseconds.
- */
 const debounce = <F extends (...args: any[]) => any>(func: F, waitFor: number) => {
   let timeout: NodeJS.Timeout | null = null;
-
   const debounced = (...args: Parameters<F>) => {
-    if (timeout !== null) {
-      clearTimeout(timeout);
-    }
+    if (timeout !== null) clearTimeout(timeout);
     timeout = setTimeout(() => func(...args), waitFor);
   };
-
   return debounced as (...args: Parameters<F>) => void;
 };
 
-// Define the shape of the context data
 interface ChecklistContextType {
   completedIds: string[];
   toggleTask: (taskId: string) => void;
-  isInitialized: boolean; // To prevent UI flicker on initial load
+  resetTrack: () => Promise<void>;
+  isInitialized: boolean;
 }
 
-// Create the context
 const ChecklistContext = createContext<ChecklistContextType | undefined>(undefined);
 
-// Define the provider's props
 interface ChecklistProviderProps {
   children: ReactNode;
   trackType: 'arf' | 'rcfe' | 'adp';
-  // For authenticated users, this is pre-fetched on the server
   initialCompletedIds?: string[];
 }
 
-// STABLE REFERENCE: This prevents the useEffect infinite loop
 const EMPTY_ARRAY: string[] = [];
 
 export const ChecklistProvider = ({
   children,
   trackType,
-  initialCompletedIds = EMPTY_ARRAY, 
+  initialCompletedIds = EMPTY_ARRAY,
 }: ChecklistProviderProps) => {
   const [completedIds, setCompletedIds] = useState<string[]>([]);
   const [isInitialized, setIsInitialized] = useState(false);
   
   const { isLoggedIn, isLoading: isAuthLoading, token: authToken } = useAuth();
-
-  // Grab the real JWT token from localStorage
-  const token = typeof window !== 'undefined' ? localStorage.getItem('jwt') : null;
-
   const localStorageKey = `checklist-progress-${trackType}`;
+  const baseUrl = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
 
-  // Debounced function to sync progress with the Strapi backend
+  // Helper to sync with server
+  const syncWithServer = async (ids: string[], token: string) => {
+    try {
+      const response = await fetch(`${baseUrl}/api/user-progress/sync`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          data: { trackType, completedIds: ids },
+        }),
+      });
+      if (!response.ok) throw new Error('Failed to sync');
+      console.log(`[Syncing] ${trackType} progress updated on server.`);
+    } catch (error) {
+      console.error('[Syncing] Error:', error);
+    }
+  };
+
   const debouncedSync = useCallback(
-    debounce(async (ids: string[], authToken: string) => {
-      console.log(`[Syncing] Debounced sync for track: ${trackType}`, { ids });
-      const baseUrl = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
-  console.log(process.env.NEXT_PUBLIC_STRAPI_URL)
-      try {
-        const response = await fetch(`${baseUrl}/api/user-progress/sync`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${authToken}`,
-          },
-          body: JSON.stringify({
-            data: {
-              trackType,
-              completedIds: ids,
-            },
-          }),
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to sync progress with the server.');
-        }
-        console.log('[Syncing] Progress synced successfully!');
-      } catch (error) {
-        console.error('[Syncing] Error:', error);
-      }
-    }, 1000), 
-    [trackType] 
+    debounce((ids: string[], token: string) => syncWithServer(ids, token), 1000),
+    [trackType, baseUrl]
   );
 
-useEffect(() => {
+  // Initialize Data
+  useEffect(() => {
     if (isAuthLoading) return;
 
-    let initialIds: string[] = [];
-    
-    // THE FIX: Use the stable authToken from your provider
-    if (isLoggedIn && authToken) {
-      console.log('Initializing state for AUTHENTICATED user.');
-      initialIds = initialCompletedIds;
-    } else {
-      console.log('Initializing state for GUEST user.');
-      try {
-        const storedIds = localStorage.getItem(localStorageKey);
-        if (storedIds) {
-          initialIds = JSON.parse(storedIds);
+    const fetchProgress = async () => {
+      if (isLoggedIn && authToken) {
+        try {
+          const response = await fetch(
+            `${baseUrl}/api/user-progress?trackType=${trackType}`,
+            {
+              headers: {
+                Authorization: `Bearer ${authToken}`,
+                'Content-Type': 'application/json'
+              }
+            }
+          );
+
+          const result = await response.json();
+
+          // Strapi 5 usually returns data in result.data
+          // We need to check if completedIds is a string or an array
+          let serverIds = result.data?.completedIds;
+
+          if (typeof serverIds === 'string') {
+            serverIds = JSON.parse(serverIds);
+          }
+
+          if (Array.isArray(serverIds)) {
+            setCompletedIds(serverIds);
+          } else {
+            // Fallback to the server-side pre-fetched IDs
+            setCompletedIds(initialCompletedIds);
+          }
+        } catch (error) {
+          console.error("Failed to fetch server progress", error);
+          setCompletedIds(initialCompletedIds);
         }
-      } catch (error) {
-        console.error('Failed to parse state from localStorage', error);
+      } else {
+        const storedIds = localStorage.getItem(localStorageKey);
+        setCompletedIds(storedIds ? JSON.parse(storedIds) : []);
       }
-    }
-    setCompletedIds(initialIds);
-    setIsInitialized(true);
-  }, [isLoggedIn, authToken, initialCompletedIds, localStorageKey, isAuthLoading]);
+      setIsInitialized(true);
+    };
+
+    fetchProgress();
+  }, [isLoggedIn, authToken, trackType, isAuthLoading, initialCompletedIds]);
 
   const toggleTask = (taskId: string) => {
-    // 1. Optimistic Update
-    const newCompletedIds = completedIds.includes(taskId)
+    // SINGLE TRACK LOCK: Prevent starting a new track if another has progress
+    const allKeys = Object.keys(localStorage);
+    const otherTrackKey = allKeys.find(key => 
+      key.startsWith('checklist-progress-') && 
+      key !== localStorageKey && 
+      JSON.parse(localStorage.getItem(key) || '[]').length > 0
+    );
+
+    if (otherTrackKey && completedIds.length === 0) {
+      const otherTrackName = otherTrackKey.split('-').pop()?.toUpperCase();
+      toast.error("Track Locked", {
+        description: `You already have progress in ${otherTrackName}. Reset that track to start this one.`,
+      });
+      return;
+    }
+
+    const newIds = completedIds.includes(taskId)
       ? completedIds.filter((id) => id !== taskId)
       : [...completedIds, taskId];
     
-    setCompletedIds(newCompletedIds);
+    setCompletedIds(newIds);
 
     if (isLoggedIn && authToken) {
-        debouncedSync(newCompletedIds, authToken);
-      }
+      debouncedSync(newIds, authToken);
+    } else {
+      localStorage.setItem(localStorageKey, JSON.stringify(newIds));
+    }
   };
 
-  const value = { completedIds, toggleTask, isInitialized };
+  const resetTrack = async () => {
+    setCompletedIds([]);
+    localStorage.removeItem(localStorageKey);
+    
+    if (isLoggedIn && authToken) {
+      await syncWithServer([], authToken);
+    }
+    toast.success("Progress cleared.");
+  };
 
   return (
-    <ChecklistContext.Provider value={value}>{children}</ChecklistContext.Provider>
+    <ChecklistContext.Provider value={{ completedIds, toggleTask, resetTrack, isInitialized }}>
+      {children}
+    </ChecklistContext.Provider>
   );
 };
 
-// Custom hook for easy consumption in child components
 export const useChecklist = () => {
   const context = useContext(ChecklistContext);
-  if (context === undefined) {
-    throw new Error('useChecklist must be used within a ChecklistProvider');
-  }
+  if (!context) throw new Error('useChecklist must be used within a ChecklistProvider');
   return context;
 };

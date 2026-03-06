@@ -14,7 +14,8 @@ type Props = {
 };
 
 export default function FacilityGuide({ phases, facilityType }: Props) {
-  const { completedIds, toggleTask, isInitialized } = useChecklist();
+  // Pull everything needed from the single context call
+  const { completedIds, toggleTask, isInitialized, resetTrack } = useChecklist();
 
   // Dynamically set phases based on facility type
   const PHASE_ORDER = facilityType === 'rcfe' 
@@ -47,6 +48,12 @@ export default function FacilityGuide({ phases, facilityType }: Props) {
 
   const activeSection = sections.find((s) => s.id === activeSectionId) ?? sections[0];
   const bullets = activeSection?.bullets ?? [];
+
+  const handleReset = () => {
+    if (window.confirm("Are you sure? This will permanently delete your progress for this facility type.")) {
+      resetTrack();
+    }
+  };
 
   if (!isInitialized) {
     return <div className="p-8 text-slate-400 animate-pulse">Loading your workspace...</div>;
@@ -98,6 +105,16 @@ export default function FacilityGuide({ phases, facilityType }: Props) {
             })}
           </div>
         </div>
+
+        {/* Reset Button - Only shows if there is progress */}
+        {completedIds.length > 0 && (
+          <button 
+            onClick={handleReset}
+            className="text-[10px] uppercase tracking-widest font-bold text-red-400 hover:text-red-600 transition-colors py-2 px-1 text-left"
+          >
+            Clear {facilityType.toUpperCase()} Progress
+          </button>
+        )}
       </aside>
 
       {/* CENTER: Content */}
@@ -110,7 +127,6 @@ export default function FacilityGuide({ phases, facilityType }: Props) {
             </div>
             
             <div className="flex items-center gap-6 shrink-0">
-              {/* THE FIX: Just pass the state setter directly to your smart component! */}
               <ChecklistToggle isActive={isChecklistMode} onToggle={setIsChecklistMode} />
               
               {isChecklistMode && (

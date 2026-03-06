@@ -71,18 +71,50 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
   }, []);
 
-  const login = useCallback((jwt: string, userData: any) => {
-    // This function should be called after a successful login API call
-    const userToStore: AuthUser = {
-      id: userData.id,
-      username: userData.username,
-      email: userData.email,
-    };
-    localStorage.setItem('jwt', jwt);
-    localStorage.setItem('user', JSON.stringify(userToStore));
-    setToken(jwt);
-    setUser(userToStore);
-  }, []);
+ const login = useCallback(async (jwt: string, userData: any) => {
+  // 1. Basic Auth State Update
+  const userToStore = { id: userData.id, username: userData.username, email: userData.email };
+  localStorage.setItem('jwt', jwt);
+  localStorage.setItem('user', JSON.stringify(userToStore));
+  setToken(jwt);
+  setUser(userToStore);
+
+  // 2. Dynamic Migration: Sync any and all local progress
+  // Scan localStorage for keys like 'checklist-progress-arf' or 'checklist-progress-rcfe'
+  const allKeys = Object.keys(localStorage);
+  const progressKeys = allKeys.filter(key => key.startsWith('checklist-progress-'));
+
+  for (const key of progressKeys) {
+    const localData = localStorage.getItem(key);
+    if (!localData) continue;
+
+    try {
+      const completedIds = JSON.parse(localData);
+      // Extract the trackType from the key (e.g., 'arf' or 'rcfe')
+      const trackType = key.replace('checklist-progress-', '');
+
+      console.log(`[Migration] Moving guest ${trackType} progress to account...`);
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/user-progress/sync`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${jwt}`
+        },
+        body: JSON.stringify({
+          data: { trackType, completedIds }
+        })
+      });
+
+      if (response.ok) {
+        localStorage.removeItem(key);
+        console.log(`[Migration] ${trackType} successfully synced and local cleared.`);
+      }
+    } catch (e) {
+      console.error(`[Migration] Failed to sync ${key}:`, e);
+    }
+  }
+}, []);
 
   const logout = useCallback(() => {
     localStorage.removeItem('jwt');

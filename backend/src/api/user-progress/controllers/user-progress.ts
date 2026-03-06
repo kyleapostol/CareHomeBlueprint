@@ -5,6 +5,29 @@
 import { factories } from '@strapi/strapi'
 
 export default factories.createCoreController('api::user-progress.user-progress', ({ strapi }) => ({
+  
+  async find(ctx) {
+    const user = ctx.state.user;
+    const { trackType } = ctx.query;
+
+    if (!user) return ctx.unauthorized();
+
+    // Find the specific progress for this user and this track
+    const progress = await strapi.db.query('api::user-progress.user-progress').findOne({
+      where: { 
+        user: user.id,
+        trackType: trackType 
+      },
+    });
+
+    if (!progress) {
+      // Return a clean empty state if no record exists yet
+      return { data: { completedIds: [] } };
+    }
+
+    return { data: progress };
+  },
+
   async sync(ctx) {
     try {
       const user = ctx.state.user;
