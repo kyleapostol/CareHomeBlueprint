@@ -1,5 +1,5 @@
 import PhaseTabs from '@/components/PhaseTabs';
-import DesktopFacility from '@/components/DesktopFacility';
+import DesktopFacility from '@/components/FacilityGuide';
 import DisclaimerGate from '@/components/DisclaimerGate';
 
 import type { PhaseData } from '@/types/types';

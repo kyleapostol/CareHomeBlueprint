@@ -2,9 +2,13 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/app/contexts/AuthProvider';
+
+
 
 export default function Login() {
   const router = useRouter();
+  const { login } = useAuth();
   
   // State
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -73,12 +77,17 @@ export default function Login() {
 
       if (errors) throw new Error(errors[0].message);
       
+      // 1. Extract the exact variables from the GraphQL wrapper
       const jwt = data?.loginWithOtp?.jwt;
+      const user = data?.loginWithOtp?.user;
+
       if (jwt) {
-        // Save token and redirect
-        localStorage.setItem('jwt', jwt);
-        alert('Login Successful!');
-        router.push('/'); // Redirect to dashboard/home
+        // 2. THE FIX: Pass the correctly scoped variables
+        // Notice we don't need localStorage.setItem here anymore because AuthProvider does it!
+        login(jwt, user || { id: 1, username: 'PhoneUser', email: '' });
+        
+        // Redirect first, then you can show a success message on the next page if you want
+        router.push('/'); 
       }
     } catch (err: any) {
       setError(err.message || 'Invalid code');

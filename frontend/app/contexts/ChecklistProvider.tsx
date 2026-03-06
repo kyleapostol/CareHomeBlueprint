@@ -55,14 +55,15 @@ const EMPTY_ARRAY: string[] = [];
 export const ChecklistProvider = ({
   children,
   trackType,
-  // THE FIX: Use the stable reference here instead of []
   initialCompletedIds = EMPTY_ARRAY, 
 }: ChecklistProviderProps) => {
   const [completedIds, setCompletedIds] = useState<string[]>([]);
   const [isInitialized, setIsInitialized] = useState(false);
   
-  // 2. Use the real auth context instead of the mock
-  const { user, token, isLoading: isAuthLoading } = useAuth();
+  const { isLoggedIn, isLoading: isAuthLoading, token: authToken } = useAuth();
+
+  // Grab the real JWT token from localStorage
+  const token = typeof window !== 'undefined' ? localStorage.getItem('jwt') : null;
 
   const localStorageKey = `checklist-progress-${trackType}`;
 
@@ -70,9 +71,10 @@ export const ChecklistProvider = ({
   const debouncedSync = useCallback(
     debounce(async (ids: string[], authToken: string) => {
       console.log(`[Syncing] Debounced sync for track: ${trackType}`, { ids });
-
+      const baseUrl = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
+  console.log(process.env.NEXT_PUBLIC_STRAPI_URL)
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/user-progress/sync`, {
+        const response = await fetch(`${baseUrl}/api/user-progress/sync`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -87,29 +89,26 @@ export const ChecklistProvider = ({
         });
 
         if (!response.ok) {
-          // In a real app, you might add error handling like a toast notification
           throw new Error('Failed to sync progress with the server.');
         }
         console.log('[Syncing] Progress synced successfully!');
       } catch (error) {
         console.error('[Syncing] Error:', error);
       }
-    }, 1000), // 1000ms debounce delay
-    [trackType] // Recreate the debounced function if the trackType changes
+    }, 1000), 
+    [trackType] 
   );
 
-  // Effect to initialize state from server props (auth) or localStorage (guest)
-  useEffect(() => {
-    // Don't initialize until the auth state is confirmed to prevent race conditions
+useEffect(() => {
     if (isAuthLoading) return;
 
     let initialIds: string[] = [];
-    if (user) {
-      // Authenticated user: State is provided by a Server Component prop.
+    
+    // THE FIX: Use the stable authToken from your provider
+    if (isLoggedIn && authToken) {
       console.log('Initializing state for AUTHENTICATED user.');
       initialIds = initialCompletedIds;
     } else {
-      // Guest user: Load from localStorage.
       console.log('Initializing state for GUEST user.');
       try {
         const storedIds = localStorage.getItem(localStorageKey);
@@ -122,28 +121,19 @@ export const ChecklistProvider = ({
     }
     setCompletedIds(initialIds);
     setIsInitialized(true);
-  }, [user, initialCompletedIds, localStorageKey, isAuthLoading]);
+  }, [isLoggedIn, authToken, initialCompletedIds, localStorageKey, isAuthLoading]);
 
   const toggleTask = (taskId: string) => {
-    // 1. Optimistic Update: Change local state instantly for a snappy UX.
+    // 1. Optimistic Update
     const newCompletedIds = completedIds.includes(taskId)
       ? completedIds.filter((id) => id !== taskId)
       : [...completedIds, taskId];
     
     setCompletedIds(newCompletedIds);
 
-    // 2. Persist changes based on user status.
-    if (user && token) {
-      // Authenticated: Call the debounced function to sync with Strapi.
-      debouncedSync(newCompletedIds, token);
-    } else {
-      // Guest: Save directly to localStorage.
-      try {
-        localStorage.setItem(localStorageKey, JSON.stringify(newCompletedIds));
-      } catch (error) {
-        console.error('Failed to save progress to localStorage', error);
+    if (isLoggedIn && authToken) {
+        debouncedSync(newCompletedIds, authToken);
       }
-    }
   };
 
   const value = { completedIds, toggleTask, isInitialized };

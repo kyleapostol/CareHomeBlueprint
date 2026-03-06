@@ -2,56 +2,33 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import type { ArfSection as FacilitySection, PhaseData, ArfBullet as FacilityBullet } from '@/types/types';
-import { Switch } from '@headlessui/react';
-import { toast } from 'sonner'; 
-import { useRouter } from 'next/navigation';
 import ChecklistToggle from './ChecklistToggle';
-
-// 1. Import the new hook
 import { useChecklist } from '@/app/contexts/ChecklistProvider'; 
 
-
-export type PhaseKey = 'prerequisites' | 'licensing' | 'vendorization';
+export type PhaseKey = 'prerequisites' | 'licensing' | 'vendorization' | 'operations';
 export type FacilityType = 'arf' | 'rcfe' | 'adp';
 
 type Props = {
-  phases: Record<PhaseKey, PhaseData>;
+  phases: Record<string, PhaseData>;
   facilityType: FacilityType;
 };
 
-const PHASE_ORDER: PhaseKey[] = ['prerequisites', 'licensing', 'vendorization'];
-
-export default function DesktopFacility({ phases, facilityType }: Props) {
-  const router = useRouter();
-  
-  // 2. Pull global state from the Provider
+export default function FacilityGuide({ phases, facilityType }: Props) {
   const { completedIds, toggleTask, isInitialized } = useChecklist();
 
-  const [activePhase, setActivePhase] = useState<PhaseKey>('prerequisites');
-  const phaseData = phases[activePhase];
+  // Dynamically set phases based on facility type
+  const PHASE_ORDER = facilityType === 'rcfe' 
+    ? ['prerequisites', 'licensing', 'operations'] 
+    : ['prerequisites', 'licensing', 'vendorization'];
+
+  const [activePhase, setActivePhase] = useState<string>(PHASE_ORDER[0]);
+  const phaseData = phases[activePhase] || { phase: '', description: '', sections: [] };
   const sections: FacilitySection[] = phaseData.sections ?? [];
 
   const [activeSectionId, setActiveSectionId] = useState<string>(sections[0]?.id ?? '');
   const [activeDetail, setActiveDetail] = useState<FacilitySection | FacilityBullet | null>(null);
-
+  
   const [isChecklistMode, setIsChecklistMode] = useState(false);
-
-  // Integrated Handler for the Checklist Switch
-  const handleToggleChange = (enabled: boolean) => {
-    // const token = localStorage.getItem('jwt'); // Note: Eventually, this can also pull from your Auth context!
-
-    // if (enabled && !token) {
-    //   toast.error("Progress won't be saved", {
-    //     description: "Sign in to keep track of your licensing journey.",
-    //     duration: 5000,
-    //     action: {
-    //       label: "Sign In",
-    //       onClick: () => router.push('/login'),
-    //     },
-    //   });
-    // }
-    setIsChecklistMode(enabled);
-  };
 
   const phasePercentage = useMemo(() => {
     const allBullets = sections.flatMap((s) => s.bullets ?? []);
@@ -71,33 +48,30 @@ export default function DesktopFacility({ phases, facilityType }: Props) {
   const activeSection = sections.find((s) => s.id === activeSectionId) ?? sections[0];
   const bullets = activeSection?.bullets ?? [];
 
-  // Optional: Prevent UI flicker while the Provider figures out if the user has saved data
   if (!isInitialized) {
-    return (
-      <section className="mpp-desktop-grid animate-pulse" aria-label={`${facilityType} desktop navigator`}>
-        <div className="p-8 text-slate-400">Loading your workspace...</div>
-      </section>
-    );
+    return <div className="p-8 text-slate-400 animate-pulse">Loading your workspace...</div>;
   }
 
   return (
-    <section className="mpp-desktop-grid" aria-label={`${facilityType} desktop navigator`}>
+    <section className="flex flex-col lg:grid lg:grid-cols-[240px_1fr_280px] gap-4 lg:items-start w-full" aria-label={`${facilityType} navigator`}>
+      
       {/* LEFT: Sidebar panels */}
-      <aside className="mpp-left">
+      <aside className="mpp-left w-full flex flex-col gap-4 lg:gap-[0.75rem]">
         <div className="panel">
-          <div className="panel-label">Phases</div>
-          <div className="nav-list">
+          <div className="panel-label hidden lg:block">Phases</div>
+          <div className="flex flex-row lg:grid overflow-x-auto lg:overflow-visible gap-2 lg:gap-2 pb-2 lg:pb-0 nav-list">
             {PHASE_ORDER.map((key) => {
+              if (!phases[key]) return null;
               const selected = key === activePhase;
               return (
                 <button
                   key={key}
                   type="button"
-                  className={`nav-item ${selected ? 'is-active' : ''}`}
+                  className={`nav-item whitespace-nowrap lg:whitespace-normal shrink-0 ${selected ? 'is-active' : ''}`}
                   onClick={() => setActivePhase(key)}
                 >
                   <div className="nav-title">{phases[key].phase}</div>
-                  {phases[key].description && <div className="nav-sub">{phases[key].description}</div>}
+                  {phases[key].description && <div className="nav-sub hidden lg:block">{phases[key].description}</div>}
                 </button>
               );
             })}
@@ -105,15 +79,15 @@ export default function DesktopFacility({ phases, facilityType }: Props) {
         </div>
 
         <div className="panel">
-          <div className="panel-label">Sections</div>
-          <div className="nav-list">
+          <div className="panel-label hidden lg:block">Sections</div>
+          <div className="flex flex-row lg:grid overflow-x-auto lg:overflow-visible gap-2 lg:gap-2 pb-2 lg:pb-0 nav-list">
             {sections.map((s) => {
               const selected = s.id === activeSection?.id;
               return (
                 <button
                   key={s.id}
                   type="button"
-                  className={`nav-item compact ${selected ? 'is-active' : ''}`}
+                  className={`nav-item compact whitespace-nowrap lg:whitespace-normal shrink-0 ${selected ? 'is-active' : ''}`}
                   onClick={() => setActiveSectionId(s.id)}
                   onMouseEnter={() => setActiveDetail(s)}
                   onMouseLeave={() => setActiveDetail(null)}
@@ -127,16 +101,18 @@ export default function DesktopFacility({ phases, facilityType }: Props) {
       </aside>
 
       {/* CENTER: Content */}
-      <main className="mpp-main">
+      <main className="mpp-main w-full min-w-0">
         <div className="panel">
-          <div className="main-header sticky top-0 bg-white z-10">
+          <div className="main-header sticky top-0 bg-white z-10 flex flex-col gap-4">
             <div>
               <div className="main-phase">{phaseData.phase}</div>
               {phaseData.description && <div className="main-desc">{phaseData.description}</div>}
             </div>
             
-            <div className="flex items-center gap-6">
-              <ChecklistToggle isActive={isChecklistMode} onToggle={handleToggleChange} />
+            <div className="flex items-center gap-6 shrink-0">
+              {/* THE FIX: Just pass the state setter directly to your smart component! */}
+              <ChecklistToggle isActive={isChecklistMode} onToggle={setIsChecklistMode} />
+              
               {isChecklistMode && (
                 <div className="mpp-progress-container">
                   <span className="mpp-progress-label">{phasePercentage}% Phase Complete</span>
@@ -166,8 +142,6 @@ export default function DesktopFacility({ phases, facilityType }: Props) {
                         className={`item group ${isChecklistMode ? 'interactive cursor-pointer hover:bg-slate-50' : ''}`}
                         onMouseEnter={() => setActiveDetail(bullet)}
                         onMouseLeave={() => setActiveDetail(null)}
-                        
-                        // 3. Fire the global toggleTask function here
                         onClick={() => isChecklistMode && toggleTask(bullet.id)}
                       >
                         <div className="mpp-item-content">
@@ -200,7 +174,7 @@ export default function DesktopFacility({ phases, facilityType }: Props) {
       </main>
 
       {/* RIGHT: Context Panels */}
-      <aside className="mpp-right">
+      <aside className="mpp-right w-full">
         <div className="panel">
           {activeDetail ? (
             <div className="mpp-detail-view">
@@ -236,7 +210,7 @@ export default function DesktopFacility({ phases, facilityType }: Props) {
             </div>
           ) : (
             <>
-              <div className="panel-label">Phase Overview</div>
+              <div className="panel-label hidden lg:block">Phase Overview</div>
               {phaseData.timeline && (
                 <div className="meta-row">
                   <div className="meta-k">Typical timeline</div>
@@ -260,7 +234,7 @@ export default function DesktopFacility({ phases, facilityType }: Props) {
                 </>
               ) : null}
               {!phaseData.timeline && !phaseData.commonDelays?.length && (
-                <div className="empty">
+                <div className="empty hidden lg:block">
                   <div className="empty-title">Ready to start?</div>
                   <div className="empty-sub">Select a section to dive into requirements.</div>
                 </div>
