@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Toaster } from 'sonner';
+import { AuthProvider } from '@/app/contexts/AuthProvider';
 
 import "./globals.css";
 
@@ -31,13 +32,15 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
-        <Header />
-        {/* This wrapper pushes the footer to the bottom on short pages */}
-        <main className="flex-grow">
-          {children}
-        </main>
-        <Footer />
-        <Toaster position="bottom-right" richColors />
+        <AuthProvider>
+          <Header />
+          {/* This wrapper pushes the footer to the bottom on short pages */}
+          <main className="flex-grow">
+            {children}
+          </main>
+          <Footer />
+          <Toaster position="bottom-right" richColors />
+        </AuthProvider>
       </body>
     </html>
   );

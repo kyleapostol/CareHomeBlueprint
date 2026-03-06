@@ -2,6 +2,7 @@
 
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/app/contexts/AuthProvider';
 
 interface ChecklistToggleProps {
   isActive: boolean;
@@ -10,12 +11,10 @@ interface ChecklistToggleProps {
 
 export default function ChecklistToggle({ isActive, onToggle }: ChecklistToggleProps) {
   const router = useRouter();
+  const { isLoggedIn } = useAuth();
 
   const handleChange = (enabled: boolean) => {
-    console.log('clicked')
-    const token = localStorage.getItem('jwt');
-    
-    if (enabled && !token) {
+    if (enabled && !isLoggedIn) {
       toast.error("Progress won't be saved", {
         description: "Sign in to keep track of your licensing journey.",
         action: {

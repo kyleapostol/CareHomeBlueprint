@@ -1,6 +1,7 @@
 import PhaseTabs from '@/components/PhaseTabs';
 import DesktopFacility from '@/components/DesktopFacility';
 import DisclaimerGate from '@/components/DisclaimerGate';
+import { ChecklistProvider } from '@/app/contexts/ChecklistProvider'; // 1. Import the Provider
 
 import type { PhaseData } from '@/types/types';
 
@@ -27,17 +28,21 @@ export default function ArfPage() {
             </p>
           </header>
 
-          {/* Mobile */}
-          <div className="mobile-only">
-            <PhaseTabs facilityType="arf" phases={phases} />
-          </div>
+          {/* 2. Wrap the interactive components in the Provider */}
+          <ChecklistProvider trackType="arf">
+            
+            {/* Mobile */}
+            <div className="mobile-only">
+              <PhaseTabs facilityType="arf" phases={phases} />
+            </div>
 
-          {/* Desktop */}
-          <div className="desktop-only">
-            <DesktopFacility facilityType="arf" phases={phases} />
-          </div>
+            {/* Desktop */}
+            <div className="desktop-only">
+              <DesktopFacility facilityType="arf" phases={phases} />
+            </div>
+
+          </ChecklistProvider>
         </div>
-
       </main>
     </DisclaimerGate>
   );

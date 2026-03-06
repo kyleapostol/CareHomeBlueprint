@@ -1,31 +1,20 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useAuth } from '@/app/contexts/AuthProvider';
 
 interface AuthStatusProps {
   closeMenu?: () => void;
 }
 
 export default function AuthStatus({ closeMenu }: AuthStatusProps) {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const router = useRouter();
-
-  useEffect(() => {
-    const token = localStorage.getItem('jwt');
-    if (token) {
-      setIsLoggedIn(true);
-    }
-  }, []);
+  // Use the centralized auth state and functions
+  const { isLoggedIn, logout } = useAuth();
 
   const handleLogout = () => {
-    localStorage.removeItem('jwt');
-    localStorage.removeItem('user');
-    setIsLoggedIn(false);
-    
+    // The logout function from the context handles state update and redirection
+    logout();
     if (closeMenu) closeMenu();
-    router.push('/login');
   };
 
   if (!isLoggedIn) {

@@ -7,6 +7,10 @@ import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import ChecklistToggle from './ChecklistToggle';
 
+// 1. Import the new hook
+import { useChecklist } from '@/app/contexts/ChecklistProvider'; 
+
+
 export type PhaseKey = 'prerequisites' | 'licensing' | 'vendorization';
 export type FacilityType = 'arf' | 'rcfe' | 'adp';
 
@@ -19,8 +23,11 @@ const PHASE_ORDER: PhaseKey[] = ['prerequisites', 'licensing', 'vendorization'];
 
 export default function DesktopFacility({ phases, facilityType }: Props) {
   const router = useRouter();
-  const [activePhase, setActivePhase] = useState<PhaseKey>('prerequisites');
+  
+  // 2. Pull global state from the Provider
+  const { completedIds, toggleTask, isInitialized } = useChecklist();
 
+  const [activePhase, setActivePhase] = useState<PhaseKey>('prerequisites');
   const phaseData = phases[activePhase];
   const sections: FacilitySection[] = phaseData.sections ?? [];
 
@@ -28,36 +35,22 @@ export default function DesktopFacility({ phases, facilityType }: Props) {
   const [activeDetail, setActiveDetail] = useState<FacilitySection | FacilityBullet | null>(null);
 
   const [isChecklistMode, setIsChecklistMode] = useState(false);
-  const [completedIds, setCompletedIds] = useState<string[]>([]);
 
   // Integrated Handler for the Checklist Switch
   const handleToggleChange = (enabled: boolean) => {
-    const token = localStorage.getItem('jwt');
+    // const token = localStorage.getItem('jwt'); // Note: Eventually, this can also pull from your Auth context!
 
-    if (enabled && !token) {
-      toast.error("Progress won't be saved", {
-        description: "Sign in to keep track of your licensing journey.",
-        duration: 5000,
-        action: {
-          label: "Sign In",
-          onClick: () => router.push('/login'),
-        },
-      });
-    }
+    // if (enabled && !token) {
+    //   toast.error("Progress won't be saved", {
+    //     description: "Sign in to keep track of your licensing journey.",
+    //     duration: 5000,
+    //     action: {
+    //       label: "Sign In",
+    //       onClick: () => router.push('/login'),
+    //     },
+    //   });
+    // }
     setIsChecklistMode(enabled);
-  };
-
-  useEffect(() => {
-    const saved = localStorage.getItem('carehome-navigator-v1');
-    if (saved) setCompletedIds(JSON.parse(saved));
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('carehome-navigator-v1', JSON.stringify(completedIds));
-  }, [completedIds]);
-
-  const toggleId = (id: string) => {
-    setCompletedIds((prev) => prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]);
   };
 
   const phasePercentage = useMemo(() => {
@@ -77,6 +70,15 @@ export default function DesktopFacility({ phases, facilityType }: Props) {
 
   const activeSection = sections.find((s) => s.id === activeSectionId) ?? sections[0];
   const bullets = activeSection?.bullets ?? [];
+
+  // Optional: Prevent UI flicker while the Provider figures out if the user has saved data
+  if (!isInitialized) {
+    return (
+      <section className="mpp-desktop-grid animate-pulse" aria-label={`${facilityType} desktop navigator`}>
+        <div className="p-8 text-slate-400">Loading your workspace...</div>
+      </section>
+    );
+  }
 
   return (
     <section className="mpp-desktop-grid" aria-label={`${facilityType} desktop navigator`}>
@@ -134,7 +136,7 @@ export default function DesktopFacility({ phases, facilityType }: Props) {
             </div>
             
             <div className="flex items-center gap-6">
-              <ChecklistToggle isActive={isChecklistMode} onToggle={setIsChecklistMode} />
+              <ChecklistToggle isActive={isChecklistMode} onToggle={handleToggleChange} />
               {isChecklistMode && (
                 <div className="mpp-progress-container">
                   <span className="mpp-progress-label">{phasePercentage}% Phase Complete</span>
@@ -164,7 +166,9 @@ export default function DesktopFacility({ phases, facilityType }: Props) {
                         className={`item group ${isChecklistMode ? 'interactive cursor-pointer hover:bg-slate-50' : ''}`}
                         onMouseEnter={() => setActiveDetail(bullet)}
                         onMouseLeave={() => setActiveDetail(null)}
-                        onClick={() => isChecklistMode && toggleId(bullet.id)}
+                        
+                        // 3. Fire the global toggleTask function here
+                        onClick={() => isChecklistMode && toggleTask(bullet.id)}
                       >
                         <div className="mpp-item-content">
                           {isChecklistMode && (
