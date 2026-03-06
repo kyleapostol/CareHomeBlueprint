@@ -5,6 +5,7 @@ import type { ArfSection as FacilitySection, PhaseData, ArfBullet as FacilityBul
 import { Switch } from '@headlessui/react';
 import { toast } from 'sonner'; 
 import { useRouter } from 'next/navigation';
+import ChecklistToggle from './ChecklistToggle';
 
 export type PhaseKey = 'prerequisites' | 'licensing' | 'vendorization';
 export type FacilityType = 'arf' | 'rcfe' | 'adp';
@@ -133,20 +134,7 @@ export default function DesktopFacility({ phases, facilityType }: Props) {
             </div>
             
             <div className="flex items-center gap-6">
-              <div className="mpp-toggle-container">
-                <span className={`mpp-toggle-label ${isChecklistMode ? 'is-active' : ''}`}>
-                  Checklist Mode
-                </span>
-                <Switch
-                  checked={isChecklistMode}
-                  onChange={handleToggleChange}
-                  className={`mpp-toggle-track ${isChecklistMode ? 'is-active' : ''}`}
-                >
-                  <span className="sr-only">Toggle Checklist Mode</span>
-                  <span className={`mpp-toggle-thumb ${isChecklistMode ? 'is-active' : ''}`} />
-                </Switch>
-              </div>
-
+              <ChecklistToggle isActive={isChecklistMode} onToggle={setIsChecklistMode} />
               {isChecklistMode && (
                 <div className="mpp-progress-container">
                   <span className="mpp-progress-label">{phasePercentage}% Phase Complete</span>
