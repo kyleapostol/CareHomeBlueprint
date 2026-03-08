@@ -1,11 +1,11 @@
-import FacilityGuide from '@/components/FacilityGuide'; // Use the new unified component
-import DisclaimerGate from '@/components/DisclaimerGate';
-import { ChecklistProvider } from '@/app/contexts/ChecklistProvider'; 
-import type { PhaseData } from '@/types/types';
+import FacilityGuide from '../../components/FacilityGuide'; // Use the new unified component
+import DisclaimerGate from '../../components/DisclaimerGate';
+import { ChecklistProvider } from '../../app/contexts/ChecklistProvider'; 
+import type { PhaseData } from '../../types/types';
 
-import prerequisites from '@/content/arf/prerequisites.json';
-import licensing from '@/content/arf/licensing.json';
-import vendorization from '@/content/arf/vendorization.json';
+import prerequisites from '../../content/arf/prerequisites.json';
+import licensing from '../../content/arf/licensing.json';
+import vendorization from '../../content/arf/vendorization.json';
 
 export default function ArfPage() {
   const phases: Record<'prerequisites' | 'licensing' | 'vendorization', PhaseData> = {

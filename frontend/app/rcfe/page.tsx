@@ -1,13 +1,13 @@
-import FacilityGuide from '@/components/FacilityGuide';
-import DisclaimerGate from '@/components/DisclaimerGate';
-import { ChecklistProvider } from '@/app/contexts/ChecklistProvider';
+import FacilityGuide from '../../components/FacilityGuide';
+import DisclaimerGate from '../../components/DisclaimerGate';
+import { ChecklistProvider } from '../../app/contexts/ChecklistProvider';
 
-import type { PhaseData } from '@/types/types';
+import type { PhaseData } from '../../types/types';
 
 // Placeholder content - replace with RCFE specific JSONs when available
-import prerequisites from '@/content/arf/prerequisites.json';
-import licensing from '@/content/arf/licensing.json';
-import vendorization from '@/content/arf/vendorization.json';
+import prerequisites from '../../content/arf/prerequisites.json';
+import licensing from '../../content/arf/licensing.json';
+import vendorization from '../../content/arf/vendorization.json';
 
 export default function RcfePage() {
   const phases: Record<'prerequisites' | 'licensing' | 'vendorization', PhaseData> = {

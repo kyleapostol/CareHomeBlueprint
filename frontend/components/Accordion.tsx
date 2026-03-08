@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import type { ArfSection as FacilitySection } from '@/types/types';
+import type { ArfSection as FacilitySection } from '../types/types';
 
 type AccordionProps = {
   sections: FacilitySection[];

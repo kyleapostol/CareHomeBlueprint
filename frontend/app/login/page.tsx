@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/app/contexts/AuthProvider';
+import { useAuth } from '../../app/contexts/AuthProvider';
 
 
 

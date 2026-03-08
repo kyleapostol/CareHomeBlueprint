@@ -2,7 +2,7 @@
 
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/app/contexts/AuthProvider';
+import { useAuth } from '../app/contexts/AuthProvider';
 
 interface ChecklistToggleProps {
   isActive: boolean;

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useAuth } from '@/app/contexts/AuthProvider';
+import { useAuth } from '../app/contexts/AuthProvider';
 
 interface AuthStatusProps {
   closeMenu?: () => void;

@@ -1,9 +1,9 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import type { ArfSection as FacilitySection, PhaseData, ArfBullet as FacilityBullet } from '@/types/types';
+import type { ArfSection as FacilitySection, PhaseData, ArfBullet as FacilityBullet } from '../types/types';
 import ChecklistToggle from './ChecklistToggle';
-import { useChecklist } from '@/app/contexts/ChecklistProvider';
+import { useChecklist } from '../app/contexts/ChecklistProvider';
 
 export type PhaseKey = 'prerequisites' | 'licensing' | 'vendorization' | 'operations';
 export type FacilityType = 'arf' | 'rcfe' | 'adp';

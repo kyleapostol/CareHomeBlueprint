@@ -2,10 +2,10 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import Menu from '@/components/Menu';
+import Menu from '../components/Menu';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import AuthStatus from './AuthStatus';
+// import AuthStatus from './AuthStatus';
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
