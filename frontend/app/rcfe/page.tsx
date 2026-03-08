@@ -28,7 +28,7 @@ export default function RcfePage() {
                 Follow each phase in order. Expand any section to review key actions, owners, and completion criteria.
               </p>
             </header>
-
+        
             <FacilityGuide facilityType="rcfe" phases={phases} />
           </div>
         </main>

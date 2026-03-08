@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { ArfSection as FacilitySection, PhaseData, ArfBullet as FacilityBullet } from '@/types/types';
 import ChecklistToggle from './ChecklistToggle';
-import { useChecklist } from '@/app/contexts/ChecklistProvider'; 
+import { useChecklist } from '@/app/contexts/ChecklistProvider';
 
 export type PhaseKey = 'prerequisites' | 'licensing' | 'vendorization' | 'operations';
 export type FacilityType = 'arf' | 'rcfe' | 'adp';
@@ -18,8 +18,8 @@ export default function FacilityGuide({ phases, facilityType }: Props) {
   const { completedIds, toggleTask, isInitialized, resetTrack } = useChecklist();
 
   // Dynamically set phases based on facility type
-  const PHASE_ORDER = facilityType === 'rcfe' 
-    ? ['prerequisites', 'licensing', 'operations'] 
+  const PHASE_ORDER = facilityType === 'rcfe'
+    ? ['prerequisites', 'licensing', 'operations']
     : ['prerequisites', 'licensing', 'vendorization'];
 
   const [activePhase, setActivePhase] = useState<string>(PHASE_ORDER[0]);
@@ -28,7 +28,7 @@ export default function FacilityGuide({ phases, facilityType }: Props) {
 
   const [activeSectionId, setActiveSectionId] = useState<string>(sections[0]?.id ?? '');
   const [activeDetail, setActiveDetail] = useState<FacilitySection | FacilityBullet | null>(null);
-  
+
   const [isChecklistMode, setIsChecklistMode] = useState(false);
 
   const phasePercentage = useMemo(() => {
@@ -55,18 +55,34 @@ export default function FacilityGuide({ phases, facilityType }: Props) {
     }
   };
 
+  const handleMouseEnter = (item: FacilitySection | FacilityBullet) => {
+    if (typeof window !== 'undefined' && window.innerWidth >= 1024) {
+      setActiveDetail(item);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (typeof window !== 'undefined' && window.innerWidth >= 1024) {
+      setActiveDetail(null);
+    }
+  };
+
+  const toggleDetail = (item: FacilitySection | FacilityBullet) => {
+    setActiveDetail(prev => (prev && 'id' in prev && prev.id === item.id ? null : item));
+  };
+
   if (!isInitialized) {
     return <div className="p-8 text-slate-400 animate-pulse">Loading your workspace...</div>;
   }
 
   return (
     <section className="flex flex-col lg:grid lg:grid-cols-[240px_1fr_280px] gap-4 lg:items-start w-full" aria-label={`${facilityType} navigator`}>
-      
-      {/* LEFT: Sidebar panels */}
-      <aside className="mpp-left w-full flex flex-col gap-4 lg:gap-[0.75rem]">
+
+      {/* LEFT: Sidebar panels (Desktop Only) */}
+      <aside className="hidden lg:flex mpp-left w-full flex-col gap-4 lg:gap-[0.75rem]">
         <div className="panel">
-          <div className="panel-label hidden lg:block">Phases</div>
-          <div className="flex flex-row lg:grid overflow-x-auto lg:overflow-visible gap-2 lg:gap-2 pb-2 lg:pb-0 nav-list">
+          <div className="panel-label">Phases</div>
+          <div className="grid gap-2 nav-list">
             {PHASE_ORDER.map((key) => {
               if (!phases[key]) return null;
               const selected = key === activePhase;
@@ -74,11 +90,11 @@ export default function FacilityGuide({ phases, facilityType }: Props) {
                 <button
                   key={key}
                   type="button"
-                  className={`nav-item whitespace-nowrap lg:whitespace-normal shrink-0 ${selected ? 'is-active' : ''}`}
+                  className={`nav-item whitespace-normal ${selected ? 'is-active' : ''}`}
                   onClick={() => setActivePhase(key)}
                 >
                   <div className="nav-title">{phases[key].phase}</div>
-                  {phases[key].description && <div className="nav-sub hidden lg:block">{phases[key].description}</div>}
+                  {phases[key].description && <div className="nav-sub">{phases[key].description}</div>}
                 </button>
               );
             })}
@@ -86,18 +102,18 @@ export default function FacilityGuide({ phases, facilityType }: Props) {
         </div>
 
         <div className="panel">
-          <div className="panel-label hidden lg:block">Sections</div>
-          <div className="flex flex-row lg:grid overflow-x-auto lg:overflow-visible gap-2 lg:gap-2 pb-2 lg:pb-0 nav-list">
+          <div className="panel-label">Sections</div>
+          <div className="grid gap-2 nav-list">
             {sections.map((s) => {
               const selected = s.id === activeSection?.id;
               return (
                 <button
                   key={s.id}
                   type="button"
-                  className={`nav-item compact whitespace-nowrap lg:whitespace-normal shrink-0 ${selected ? 'is-active' : ''}`}
+                  className={`nav-item compact whitespace-normal ${selected ? 'is-active' : ''}`}
                   onClick={() => setActiveSectionId(s.id)}
-                  onMouseEnter={() => setActiveDetail(s)}
-                  onMouseLeave={() => setActiveDetail(null)}
+                  onMouseEnter={() => handleMouseEnter(s)}
+                  onMouseLeave={handleMouseLeave}
                 >
                   <div className="nav-title">{s.title}</div>
                 </button>
@@ -108,7 +124,7 @@ export default function FacilityGuide({ phases, facilityType }: Props) {
 
         {/* Reset Button - Only shows if there is progress */}
         {completedIds.length > 0 && (
-          <button 
+          <button
             onClick={handleReset}
             className="text-[10px] uppercase tracking-widest font-bold text-red-400 hover:text-red-600 transition-colors py-2 px-1 text-left"
           >
@@ -119,61 +135,154 @@ export default function FacilityGuide({ phases, facilityType }: Props) {
 
       {/* CENTER: Content */}
       <main className="mpp-main w-full min-w-0">
-        <div className="panel">
-          <div className="main-header sticky top-0 bg-white z-10 flex flex-col gap-4">
-            <div>
-              <div className="main-phase">{phaseData.phase}</div>
-              {phaseData.description && <div className="main-desc">{phaseData.description}</div>}
-            </div>
-            
-            <div className="flex items-center gap-6 shrink-0">
-              <ChecklistToggle isActive={isChecklistMode} onToggle={setIsChecklistMode} />
-              
-              {isChecklistMode && (
-                <div className="mpp-progress-container">
-                  <span className="mpp-progress-label">{phasePercentage}% Phase Complete</span>
-                  <div className="mpp-progress-track">
-                    <div 
-                      className="mpp-progress-fill" 
-                      style={{ width: `${phasePercentage}%` }} 
-                    />
-                  </div>
-                </div>
-              )}
-            </div>
+
+        {/* STICKY HEADER WRAPPER (Mobile Nav + Controls) */}
+        <div className="sticky top-0 z-30 bg-white/95 backdrop-blur-sm -mx-4 px-4 lg:mx-0 lg:px-0 border-b border-gray-100 lg:border-none pb-2 lg:pb-0 transition-all">
+
+          {/* MOBILE NAV: PHASES */}
+          <div className="lg:hidden flex overflow-x-auto gap-2 py-3 no-scrollbar snap-x px-1">
+            {PHASE_ORDER.map(key => {
+              const selected = activePhase === key;
+              return (
+                <button
+                  key={key}
+                  onClick={() => setActivePhase(key)}
+                  className={`snap-start shrink-0 px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all
+                    ${selected
+                      ? 'bg-orange-800 text-white shadow-md'
+                      : 'bg-slate-100 text-slate-500 border border-transparent'}
+                  `}
+                >
+                  {phases[key]?.phase}
+                </button>
+              );
+            })}
           </div>
 
+          {/* MOBILE NAV: SECTIONS */}
+          <div className="lg:hidden flex overflow-x-auto gap-4 pb-3 no-scrollbar snap-x px-1 border-b border-gray-100">
+            {sections.map(s => {
+              const selected = activeSectionId === s.id;
+              return (
+                <button
+                  key={s.id}
+                  onClick={() => setActiveSectionId(s.id)}
+                  className={`
+          snap-start shrink-0 whitespace-nowrap text-xs font-bold transition-all pb-2 px-1 border-b-2
+          ${selected
+                      ? 'border-orange-800 text-orange-800'
+                      : 'border-transparent text-slate-400'}
+        `}
+                >
+                  {s.title}
+                </button>
+              );
+            })}
+          </div>
+
+
+          {/* MAIN HEADER PANEL */}
+          <div className="panel !mb-0 !p-0 !shadow-none !bg-transparent lg:!bg-white lg:!p-6 lg:!shadow-sm lg:!mb-4">
+            <div className="flex flex-col gap-4 pt-2 lg:pt-0">
+              <div className="hidden lg:block">
+                <div className="main-phase">{phaseData.phase}</div>
+                {phaseData.description && <div className="main-desc">{phaseData.description}</div>}
+              </div>
+
+              <div className="flex items-center justify-between lg:justify-start gap-6 shrink-0">
+                <ChecklistToggle isActive={isChecklistMode} onToggle={setIsChecklistMode} />
+
+                {isChecklistMode && (
+                  <div className="mpp-progress-container flex-1 lg:flex-none lg:w-64">
+                    <span className="mpp-progress-label">{phasePercentage}% Phase Complete</span>
+                    <div className="mpp-progress-track">
+                      <div
+                        className="mpp-progress-fill"
+                        style={{ width: `${phasePercentage}%` }}
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="panel mt-4 lg:mt-0">
           {activeSection ? (
             <div className="mpp-section-container">
-              <h2 className="section-title">{activeSection.title}</h2>
-              {activeSection.summary && <p className="section-summary">{activeSection.summary}</p>}
+              {/* Hiding the Title on Mobile */}
+              <h2 className="section-title text-xl lg:text-2xl hidden lg:block">
+                {activeSection.title}
+              </h2>
+              {/*  Hiding the Summary on Mobile to save vertical space  */}
+              {activeSection.summary && (<p className="section-summary hidden lg:block">{activeSection.summary}</p>)}
 
               {bullets.length ? (
                 <ul className="items">
                   {bullets.map((bullet, idx) => {
                     const isCompleted = completedIds.includes(bullet.id);
+                    const isExpanded = activeDetail?.id === bullet.id;
+
                     return (
                       <li
                         key={`${activeSection.id}-${idx}`}
-                        className={`item group ${isChecklistMode ? 'interactive cursor-pointer hover:bg-slate-50' : ''}`}
-                        onMouseEnter={() => setActiveDetail(bullet)}
-                        onMouseLeave={() => setActiveDetail(null)}
-                        onClick={() => isChecklistMode && toggleTask(bullet.id)}
+                        className={`
+                            group relative border-b border-gray-50 last:border-0
+                            item
+                            ${isChecklistMode ? 'cursor-pointer hover:bg-slate-50' : ''}
+                        `}
                       >
-                        <div className="mpp-item-content">
+                        <div className="mpp-item-content flex items-start min-h-[56px] lg:min-h-0 py-3 lg:py-2 gap-3">
+                          {/* Checkbox Area */}
                           {isChecklistMode && (
-                            <div className={`mpp-checkbox ${isCompleted ? 'is-active' : 'is-inactive'}`}>
-                              {isCompleted && (
-                                <svg className="mpp-checkbox-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                                </svg>
-                              )}
+                            <div
+                              className="pt-1 shrink-0"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                toggleTask(bullet.id);
+                              }}
+                            >
+                              <div className={`mpp-checkbox ${isCompleted ? 'is-active' : 'is-inactive'}`}>
+                                {isCompleted && (
+                                  <svg className="mpp-checkbox-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                  </svg>
+                                )}
+                              </div>
                             </div>
                           )}
-                          <div className={`item-title ${isChecklistMode && isCompleted ? 'opacity-40 grayscale line-through' : ''}`}>
-                            {bullet.label}
+
+                          {/* Content Area */}
+                          <div
+                            className="flex-1"
+                            onClick={() => toggleDetail(bullet)}
+                            onMouseEnter={() => handleMouseEnter(bullet)}
+                            onMouseLeave={handleMouseLeave}
+                          >
+                            <div className={`item-title text-base lg:text-sm ${isChecklistMode && isCompleted ? 'opacity-40 grayscale line-through' : ''}`}>
+                              {bullet.label}
+                            </div>
+
+                            {/* Mobile Expand Hint */}
+                            {!isExpanded && (
+                              <div className="lg:hidden text-xs mt-1 font-medium text-gray-400">
+                                Tap for details
+                              </div>
+                            )}
                           </div>
                         </div>
+
+                        {/* Mobile Expert Guidance Drawer */}
+                        {isExpanded && (
+                          <div className="lg:hidden bg-gray-50 -mx-4 px-4 py-4 mb-4 border-y border-gray-100 animate-in slide-in-from-top-2">
+                            <div className="text-xs font-bold uppercase tracking-wider mb-1 text-gray-500">Expert Guidance</div>
+                            <h4 className="font-semibold text-gray-900 mb-2">{bullet.label}</h4>
+                            <p className="text-sm text-gray-700 leading-relaxed">
+                              {bullet.detail || activeSection.summary}
+                            </p>
+                          </div>
+                        )}
                       </li>
                     );
                   })}
@@ -184,13 +293,25 @@ export default function FacilityGuide({ phases, facilityType }: Props) {
                   <div className="empty-sub">Add bullets in the JSON for this section.</div>
                 </div>
               )}
+
+              {/* Mobile Reset Button */}
+              {completedIds.length > 0 && (
+                <div className="lg:hidden mt-8 flex justify-center pb-8">
+                  <button
+                    onClick={handleReset}
+                    className="px-6 py-3 rounded-lg bg-red-50 text-red-600 text-sm font-bold border border-red-100"
+                  >
+                    Clear {facilityType.toUpperCase()} Progress
+                  </button>
+                </div>
+              )}
             </div>
           ) : null}
         </div>
       </main>
 
-      {/* RIGHT: Context Panels */}
-      <aside className="mpp-right w-full">
+      {/* RIGHT: Context Panels (Desktop Only) */}
+      <aside className="hidden lg:block mpp-right w-full">
         <div className="panel">
           {activeDetail ? (
             <div className="mpp-detail-view">

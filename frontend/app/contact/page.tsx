@@ -1,12 +1,61 @@
 'use client';
 
-import React from 'react';
-import { useForm, ValidationError } from '@formspree/react';
+import React, { useState } from 'react';
 
 export default function ContactPage() {
-  const [state, handleSubmit] = useForm("mdalqzdz");
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    topic: 'ARF',
+    message: ''
+  });
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
 
-  if (state.succeeded) {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus('submitting');
+    setErrorMessage('');
+
+    try {
+      const apiUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'http://localhost:1337';
+      const res = await fetch(`${apiUrl}/api/contact-submissions`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          data: {
+            name: formData.name,
+            email: formData.email,
+            topic: formData.topic,
+            message: formData.message
+          }
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to submit form');
+      }
+
+      setStatus('success');
+      setFormData({ name: '', email: '', topic: 'ARF', message: '' });
+    } catch (error) {
+      console.error(error);
+      setStatus('error');
+      setErrorMessage('Something went wrong. Please try again later.');
+    }
+  };
+
+  if (status === 'success') {
     return (
       <div className="page-container flex items-center justify-center p-4">
         <div className="card-success">
@@ -14,9 +63,12 @@ export default function ContactPage() {
           <p className="text-gray-600 mb-6">
             Thank you for reaching out. We help providers navigate CDSS regulations and will get back to you shortly.
           </p>
-          <a href="/" className="btn-secondary">
-            Back to Home
-          </a>
+          <button 
+            onClick={() => setStatus('idle')} 
+            className="btn-secondary"
+          >
+            Send Another Message
+          </button>
         </div>
       </div>
     );
@@ -69,15 +121,16 @@ export default function ContactPage() {
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Full Name */}
             <div>
-              <label htmlFor="fullName" className="form-label">Full Name</label>
+              <label htmlFor="name" className="form-label">Full Name</label>
               <input
-                id="fullName"
+                id="name"
                 type="text"
-                name="fullName"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
                 required
                 className="form-input"
               />
-              <ValidationError prefix="Name" field="fullName" errors={state.errors} />
             </div>
 
             {/* Email Address */}
@@ -87,26 +140,28 @@ export default function ContactPage() {
                 id="email"
                 type="email"
                 name="email"
+                value={formData.email}
+                onChange={handleChange}
                 required
                 className="form-input"
               />
-              <ValidationError prefix="Email" field="email" errors={state.errors} />
             </div>
 
-            {/* Facility Type */}
+            {/* Topic */}
             <div>
-              <label htmlFor="facilityType" className="form-label">Facility Type</label>
+              <label htmlFor="topic" className="form-label">Topic</label>
               <div className="relative">
                 <select
-                  id="facilityType"
-                  name="facilityType"
+                  id="topic"
+                  name="topic"
+                  value={formData.topic}
+                  onChange={handleChange}
                   className="form-input appearance-none bg-white"
-                  defaultValue="ARF"
                 >
                   <option value="ARF">Adult Residential Facility (ARF)</option>
                   <option value="RCFE">RCFE (Elderly)</option>
-                  <option value="ADP">Adult Day Program</option>
-                  <option value="Other">Other</option>
+                  <option value="ADP">Adult Day Program (ADP)</option>
+                  <option value="GENERAL">General Inquiry</option>
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
                   <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -114,7 +169,6 @@ export default function ContactPage() {
                   </svg>
                 </div>
               </div>
-              <ValidationError prefix="Facility Type" field="facilityType" errors={state.errors} />
             </div>
 
             {/* Message */}
@@ -124,20 +178,27 @@ export default function ContactPage() {
                 id="message"
                 name="message"
                 rows={4}
+                value={formData.message}
+                onChange={handleChange}
                 required
                 className="form-input resize-none"
                 placeholder="How can we help you with licensing?"
               />
-              <ValidationError prefix="Message" field="message" errors={state.errors} />
             </div>
+
+            {status === 'error' && (
+              <div className="p-3 bg-red-50 text-red-600 text-sm rounded-md border border-red-100">
+                {errorMessage}
+              </div>
+            )}
 
             {/* Submit Button */}
             <button
               type="submit"
-              disabled={state.submitting}
-              className="btn-primary"
+              disabled={status === 'submitting'}
+              className="btn-primary disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              {state.submitting ? 'Sending...' : 'Send Message'}
+              {status === 'submitting' ? 'Sending...' : 'Send Message'}
             </button>
           </form>
         </div>

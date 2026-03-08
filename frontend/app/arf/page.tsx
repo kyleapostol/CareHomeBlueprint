@@ -16,22 +16,20 @@ export default function ArfPage() {
 
   return (
     <DisclaimerGate>
-      <main className="page" data-facility-type="arf">
-        <div className="page-inner max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <header className="mpp-header mb-8">
-            <p className="mpp-eyebrow text-blue-600 font-semibold tracking-wide uppercase">ARF Guide</p>
-            <h1 className="text-3xl font-bold text-gray-900 mt-2">Adult Residential Facility Roadmap</h1>
-            <p className="mpp-subtitle text-lg text-gray-600 mt-2 max-w-3xl">
-              Follow each phase in order. Review key actions, owners, and completion criteria.
-            </p>
-          </header>
-
-          <ChecklistProvider trackType="arf">
+      <ChecklistProvider trackType="arf">
+        <main className="page" data-facility-type="arf">
+          <div className="page-inner">
+            <header className="mpp-header">
+              <p className="mpp-eyebrow">ARF Guide</p>
+              <h1>Adult Residential Facility Roadmap</h1>
+              <p className="mpp-subtitle">
+                Follow each phase in order. Expand any section to review key actions, owners, and completion criteria.
+              </p>
+            </header>
             <FacilityGuide facilityType="arf" phases={phases} />
-          </ChecklistProvider>
-          
-        </div>
-      </main>
+          </div>
+        </main>
+      </ChecklistProvider>
     </DisclaimerGate>
   );
 }
