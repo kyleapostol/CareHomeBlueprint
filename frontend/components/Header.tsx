@@ -61,9 +61,12 @@ export default function Header() {
                             <span className="topbar-title">
                                 MyProviderPath
                             </span>
-                            <span className="topbar-subtitle">
-                                {facilityTitles[facilityType as keyof typeof facilityTitles]}
-                            </span>
+                            {/* Hide the subtitle if we are on the home/landing page */}
+                            {pathname !== '/' && (
+                                <span className="topbar-subtitle">
+                                    {facilityTitles[facilityType as keyof typeof facilityTitles]}
+                                </span>
+                            )}
                         </div>
                     </Link>
                 </div>

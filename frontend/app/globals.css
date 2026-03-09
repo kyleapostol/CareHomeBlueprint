@@ -432,3 +432,62 @@
     @apply translate-x-6;
   }
 }
+
+@layer components {
+  .landing-wrapper {
+    @apply min-h-screen bg-slate-50 font-sans;
+  }
+  
+  /* Changed to justify-end to keep the login link on the right */
+  .nav-bar {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex justify-end items-center;
+  }
+  
+  .nav-link {
+    @apply text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors;
+  }
+  
+  .hero-layout {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-24 lg:pt-32 flex flex-col lg:flex-row items-center gap-12 lg:gap-8;
+  }
+  
+  .hero-text-col {
+    @apply flex-1 text-center lg:text-left;
+  }
+  
+  .hero-title {
+    @apply text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight mb-6 leading-tight;
+  }
+  
+  .hero-highlight {
+    @apply text-blue-600;
+  }
+  
+  .hero-subtitle {
+    @apply text-lg sm:text-xl text-slate-600 mb-8 max-w-2xl mx-auto lg:mx-0 leading-relaxed;
+  }
+  
+  .cta-group {
+    @apply flex flex-col sm:flex-row gap-4 justify-center lg:justify-start;
+  }
+  
+  .cta-primary {
+    @apply inline-flex justify-center items-center px-8 py-3.5 text-base font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm hover:shadow transition-all duration-200;
+  }
+  
+  .hero-visual-col {
+    @apply flex-1 w-full relative;
+  }
+  
+  .visual-backdrop-blob {
+    @apply absolute -inset-1 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-3xl blur opacity-70;
+  }
+  
+  .visual-image-container {
+    @apply relative rounded-2xl bg-white shadow-xl border border-slate-200 p-2 sm:p-4 overflow-hidden aspect-[4/3] sm:aspect-[16/9] lg:aspect-auto lg:h-[500px] flex items-center justify-center bg-gradient-to-tr from-slate-50 to-white;
+  }
+  
+  .visual-image {
+    @apply object-contain rounded-lg shadow-sm;
+  }
+}

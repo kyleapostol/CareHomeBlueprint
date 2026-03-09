@@ -75,6 +75,14 @@ export default function FacilityGuide({ phases, facilityType }: Props) {
     return <div className="p-8 text-slate-400 animate-pulse">Loading your workspace...</div>;
   }
 
+  // Map Tailwind colors to your facility types for the mobile nav
+  const themeColors = {
+    arf: { bg: 'bg-orange-800', textBorder: 'text-orange-800 border-orange-800' },
+    rcfe: { bg: 'bg-blue-700', textBorder: 'text-blue-700 border-blue-700' },
+    adp: { bg: 'bg-emerald-700', textBorder: 'text-emerald-700 border-emerald-700' } // Adjust ADP color as needed
+  };
+  const activeTheme = themeColors[facilityType] || themeColors.arf;
+
   return (
     <section className="flex flex-col lg:grid lg:grid-cols-[240px_1fr_280px] gap-4 lg:items-start w-full" aria-label={`${facilityType} navigator`}>
 
@@ -149,7 +157,7 @@ export default function FacilityGuide({ phases, facilityType }: Props) {
                   onClick={() => setActivePhase(key)}
                   className={`snap-start shrink-0 px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all
                     ${selected
-                      ? 'bg-orange-800 text-white shadow-md'
+                      ? `${activeTheme.bg} text-white shadow-md` // <-- Updated line
                       : 'bg-slate-100 text-slate-500 border border-transparent'}
                   `}
                 >
@@ -167,12 +175,11 @@ export default function FacilityGuide({ phases, facilityType }: Props) {
                 <button
                   key={s.id}
                   onClick={() => setActiveSectionId(s.id)}
-                  className={`
-          snap-start shrink-0 whitespace-nowrap text-xs font-bold transition-all pb-2 px-1 border-b-2
-          ${selected
-                      ? 'border-orange-800 text-orange-800'
+                  className={`snap-start shrink-0 whitespace-nowrap text-xs font-bold transition-all pb-2 px-1 border-b-2
+                    ${selected
+                      ? activeTheme.textBorder // <-- Updated line
                       : 'border-transparent text-slate-400'}
-        `}
+                  `}
                 >
                   {s.title}
                 </button>
