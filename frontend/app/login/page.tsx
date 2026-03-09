@@ -17,13 +17,17 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  const uri = process.env.NEXT_PUBLIC_API_URL 
+  ? `${process.env.NEXT_PUBLIC_API_URL}/graphql` 
+  : 'http://localhost:1337/graphql';
+
   // Step 1: Send the OTP
   const handleSendOtp = async () => {
     setLoading(true);
     setError('');
 
     try {
-      const response = await fetch('http://localhost:1337/graphql', {
+      const response = await fetch(uri, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
