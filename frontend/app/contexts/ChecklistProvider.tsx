@@ -47,7 +47,7 @@ export const ChecklistProvider = ({
   
   const { isLoggedIn, isLoading: isAuthLoading, token: authToken } = useAuth();
   const localStorageKey = `checklist-progress-${trackType}`;
-  const baseUrl = process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337';
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1337';
 
   // Helper to sync with server
   const syncWithServer = async (ids: string[], token: string) => {

@@ -95,7 +95,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       console.log(`[Migration] Moving guest ${trackType} progress to account...`);
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/user-progress/sync`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user-progress/sync`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
