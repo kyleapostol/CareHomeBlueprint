@@ -79,7 +79,7 @@
 /* ---------------------------------------
      Header & Global Menu
   ---------------------------------------- */
-  .topbar { @apply relative w-full border-b border-slate-200 bg-white/90 backdrop-blur-md z-[100]; }
+  .topbar { @apply relative z-50 w-full bg-white shadow-sm border-b border-gray-200; }
   .topbar-inner { @apply flex items-center justify-between px-6 py-4 max-w-7xl mx-auto; }
   .topbar-left { @apply flex items-center gap-4; }
   
@@ -89,8 +89,8 @@
   .topbar-menu-btn { @apply p-2.5 rounded-xl transition-all border bg-white border-slate-200 text-slate-600 hover:border-[var(--color-primary-border)] shadow-sm; }
   .topbar-menu-btn.is-active { @apply bg-[var(--color-primary-light)] border-[var(--color-primary-border)] text-[var(--color-primary)]; }
   
-  .mpp-menu-dropdown { @apply absolute top-[calc(100%+12px)] right-0 z-50 w-72 bg-white shadow-2xl rounded-2xl border border-slate-200 overflow-hidden ring-1 ring-black/5; }
-  .topbar-backdrop { @apply fixed inset-0 top-[81px] bg-slate-900/40 backdrop-blur-[2px] z-40 transition-opacity; }
+  .mpp-menu-dropdown { @apply absolute right-0 top-[100%] mt-2 z-50; }
+  .topbar-backdrop { @apply fixed inset-x-0 bottom-0 top-[100%] bg-slate-900/20 backdrop-blur-sm z-40; }
 
   .logoWrap { @apply flex; }
 
@@ -490,4 +490,66 @@
   .visual-image {
     @apply object-contain rounded-lg shadow-sm;
   }
+}
+
+/* Login Component Styles */
+/* Login Component Styles - Minimalist */
+.login-container {
+  @apply min-h-screen flex items-center justify-center bg-gray-50 p-4 font-sans;
+}
+
+.login-card {
+  @apply w-full max-w-md bg-white p-8 rounded-xl shadow-sm border border-gray-200;
+}
+
+.login-header {
+  @apply mb-8 text-center;
+}
+
+.login-title {
+  @apply text-2xl font-bold text-gray-900 tracking-tight;
+}
+
+.login-subtitle {
+  @apply text-sm text-gray-500 mt-2;
+}
+
+.login-error {
+  @apply mb-6 p-3 rounded-md bg-red-50 border border-red-100 text-sm text-red-600 text-center font-medium;
+}
+
+.login-form {
+  @apply space-y-5;
+}
+
+.login-label {
+  @apply block text-sm font-medium text-gray-700 mb-1 text-left;
+}
+
+.login-input {
+  @apply w-full px-4 py-2 bg-white border border-gray-300 rounded-md text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors;
+}
+
+.login-input--code {
+  @apply text-center text-xl tracking-[0.25em];
+}
+
+.login-button {
+  @apply w-full flex justify-center items-center px-4 py-2 mt-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:bg-blue-300 disabled:cursor-not-allowed transition-colors;
+}
+
+.login-button--verify {
+  @apply bg-green-600 hover:bg-green-700 disabled:bg-green-300 focus:ring-green-500;
+}
+
+.login-link-wrapper {
+  @apply text-center pt-4;
+}
+
+.login-link {
+  @apply text-sm font-medium text-blue-600 hover:text-blue-500 transition-colors bg-transparent border-none cursor-pointer hover:underline;
+}
+
+.login-spinner {
+  @apply animate-spin h-4 w-4 text-white mr-2;
 }

@@ -3,8 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../app/contexts/AuthProvider';
-
-
+import LoginBackground from '../../components/LoginBackground';
 
 export default function Login() {
   const router = useRouter();
@@ -17,6 +16,22 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // 1. Get only the digits from the input
+    const digits = e.target.value.replace(/\D/g, '');
+    const truncatedDigits = digits.slice(0, 10);
+
+    // 2. Apply formatting as XXX-XXX-XXXX
+    let formatted = truncatedDigits;
+    if (truncatedDigits.length > 6) {
+      formatted = `${truncatedDigits.slice(0, 3)}-${truncatedDigits.slice(3, 6)}-${truncatedDigits.slice(6)}`;
+    } else if (truncatedDigits.length > 3) {
+      formatted = `${truncatedDigits.slice(0, 3)}-${truncatedDigits.slice(3)}`;
+    }
+    
+    setPhoneNumber(formatted);
+  };
+
   const uri = process.env.NEXT_PUBLIC_API_URL 
   ? `${process.env.NEXT_PUBLIC_API_URL}/graphql` 
   : 'http://localhost:1337/graphql';
@@ -25,6 +40,9 @@ export default function Login() {
   const handleSendOtp = async () => {
     setLoading(true);
     setError('');
+
+    const digits = phoneNumber.replace(/\D/g, '');
+    const fullPhoneNumber = `+1${digits}`;
 
     try {
       const response = await fetch(uri, {
@@ -36,7 +54,7 @@ export default function Login() {
               sendOtp(phoneNumber: $phoneNumber)
             }
           `,
-          variables: { phoneNumber },
+          variables: { phoneNumber: fullPhoneNumber },
         }),
       });
 
@@ -57,8 +75,11 @@ export default function Login() {
     setLoading(true);
     setError('');
 
+    const digits = phoneNumber.replace(/\D/g, '');
+    const fullPhoneNumber = `+1${digits}`;
+
     try {
-      const response = await fetch('http://localhost:1337/graphql', {
+      const response = await fetch(uri, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -73,7 +94,7 @@ export default function Login() {
               }
             }
           `,
-          variables: { phoneNumber, code },
+          variables: { phoneNumber: fullPhoneNumber, code },
         }),
       });
 
@@ -81,16 +102,11 @@ export default function Login() {
 
       if (errors) throw new Error(errors[0].message);
       
-      // 1. Extract the exact variables from the GraphQL wrapper
       const jwt = data?.loginWithOtp?.jwt;
       const user = data?.loginWithOtp?.user;
 
       if (jwt) {
-        // 2. THE FIX: Pass the correctly scoped variables
-        // Notice we don't need localStorage.setItem here anymore because AuthProvider does it!
         login(jwt, user || { id: 1, username: 'PhoneUser', email: '' });
-        
-        // Redirect first, then you can show a success message on the next page if you want
         router.push('/'); 
       }
     } catch (err: any) {
@@ -101,53 +117,88 @@ export default function Login() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold text-center text-gray-800">
-          {step === 1 ? 'Sign In' : 'Verify Code'}
-        </h2>
+    <div className="login-container relative z-0 overflow-hidden bg-transparent">
+      
+      <LoginBackground />
 
-        {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+      {/* ADDED: relative and z-10 so the card physically sits above the background layer */}
+      <div className="login-card relative z-10">
+        
+        <div className="login-header">
+          <h2 className="login-title">
+            {step === 1 ? 'Login' : 'Verify Code'}
+          </h2>
+          <p className="login-subtitle">
+            {step === 1 
+              ? 'Sign in to access your dashboard' 
+              : `Code sent to ${phoneNumber}`}
+          </p>
+        </div>
+
+        {error && (
+          <div className="login-error">
+            {error}
+          </div>
+        )}
 
         {step === 1 ? (
-          <div className="space-y-4">
+          <div className="login-form">
             <div>
-              <label className="block text-sm font-medium text-gray-700">Phone Number</label>
+              <label className="login-label">Phone Number</label>
               <input
                 type="tel"
-                placeholder="+1234567890"
+                placeholder="123-456-7890"
                 value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                className="w-full px-4 py-2 mt-1 border rounded-md focus:ring-blue-500 focus:border-blue-500 text-black"
+                onChange={handlePhoneNumberChange}
+                className="login-input"
               />
             </div>
             <button
               onClick={handleSendOtp}
               disabled={loading || !phoneNumber}
-              className="w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:bg-blue-300"
+              className="login-button"
             >
-              {loading ? 'Sending...' : 'Send Login Code'}
+              {loading ? (
+                <>
+                  <svg className="login-spinner" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Sending...
+                </>
+              ) : 'Send Login Code'}
             </button>
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="login-form">
             <div>
-              <label className="block text-sm font-medium text-gray-700">6-Digit Code</label>
+              <label className="login-label">6-Digit Code</label>
               <input
                 type="text"
+                inputMode="numeric"
+                maxLength={6}
                 placeholder="123456"
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
-                className="w-full px-4 py-2 mt-1 border rounded-md focus:ring-blue-500 focus:border-blue-500 text-black"
+                className="login-input login-input--code"
               />
             </div>
             <button
               onClick={handleLogin}
               disabled={loading || code.length < 4}
-              className="w-full px-4 py-2 text-white bg-green-600 rounded-md hover:bg-green-700 disabled:bg-green-300"
+              className="login-button login-button--verify"
             >
               {loading ? 'Verifying...' : 'Verify & Login'}
             </button>
+            
+            <div className="login-link-wrapper">
+              <button 
+                onClick={() => { setStep(1); setCode(''); setError(''); }}
+                className="login-link"
+              >
+                Change phone number
+              </button>
+            </div>
           </div>
         )}
       </div>

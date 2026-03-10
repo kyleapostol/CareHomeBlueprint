@@ -26,7 +26,8 @@ export default function ContactPage() {
     setErrorMessage('');
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL || 'http://localhost:1337';
+      const apiUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL ;
+      console.log(apiUrl)
       const res = await fetch(`${apiUrl}/api/contact-submissions`, {
         method: 'POST',
         headers: {
@@ -54,25 +55,6 @@ export default function ContactPage() {
       setErrorMessage('Something went wrong. Please try again later.');
     }
   };
-
-  if (status === 'success') {
-    return (
-      <div className="page-container flex items-center justify-center p-4">
-        <div className="card-success">
-          <h2 className="heading-section !mb-4">Message Sent!</h2>
-          <p className="text-gray-600 mb-6">
-            Thank you for reaching out. We help providers navigate CDSS regulations and will get back to you shortly.
-          </p>
-          <button 
-            onClick={() => setStatus('idle')} 
-            className="btn-secondary"
-          >
-            Send Another Message
-          </button>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="page-container split-layout">
@@ -116,91 +98,106 @@ export default function ContactPage() {
       {/* Right Side: Form */}
       <div className="form-panel">
         <div className="card-main">
-          <h2 className="heading-section">Send us a Message</h2>
-          
-          <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Full Name */}
-            <div>
-              <label htmlFor="name" className="form-label">Full Name</label>
-              <input
-                id="name"
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-                className="form-input"
-              />
+          {status === 'success' ? (
+            <div className="text-center p-8">
+              <div className="inline-block bg-green-100 p-3 rounded-full mb-4">
+                <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <h2 className="heading-section !mb-2">Message Sent!</h2>
+              <p className="text-gray-600">
+                Thank you for reaching out. We'll get back to you shortly.
+              </p>
             </div>
-
-            {/* Email Address */}
-            <div>
-              <label htmlFor="email" className="form-label">Email Address</label>
-              <input
-                id="email"
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                className="form-input"
-              />
-            </div>
-
-            {/* Topic */}
-            <div>
-              <label htmlFor="topic" className="form-label">Topic</label>
-              <div className="relative">
-                <select
-                  id="topic"
-                  name="topic"
-                  value={formData.topic}
-                  onChange={handleChange}
-                  className="form-input appearance-none bg-white"
-                >
-                  <option value="ARF">Adult Residential Facility (ARF)</option>
-                  <option value="RCFE">RCFE (Elderly)</option>
-                  <option value="ADP">Adult Day Program (ADP)</option>
-                  <option value="GENERAL">General Inquiry</option>
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
-                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
+          ) : (
+            <>
+              <h2 className="heading-section">Send us a Message</h2>
+              <form onSubmit={handleSubmit} className="space-y-5">
+                {/* Full Name */}
+                <div>
+                  <label htmlFor="name" className="form-label">Full Name</label>
+                  <input
+                    id="name"
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    className="form-input"
+                  />
                 </div>
-              </div>
-            </div>
 
-            {/* Message */}
-            <div>
-              <label htmlFor="message" className="form-label">Message</label>
-              <textarea
-                id="message"
-                name="message"
-                rows={4}
-                value={formData.message}
-                onChange={handleChange}
-                required
-                className="form-input resize-none"
-                placeholder="How can we help you with licensing?"
-              />
-            </div>
+                {/* Email Address */}
+                <div>
+                  <label htmlFor="email" className="form-label">Email Address</label>
+                  <input
+                    id="email"
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className="form-input"
+                  />
+                </div>
 
-            {status === 'error' && (
-              <div className="p-3 bg-red-50 text-red-600 text-sm rounded-md border border-red-100">
-                {errorMessage}
-              </div>
-            )}
+                {/* Topic */}
+                <div>
+                  <label htmlFor="topic" className="form-label">Topic</label>
+                  <div className="relative">
+                    <select
+                      id="topic"
+                      name="topic"
+                      value={formData.topic}
+                      onChange={handleChange}
+                      className="form-input appearance-none bg-white"
+                    >
+                      <option value="ARF">Adult Residential Facility (ARF)</option>
+                      <option value="RCFE">RCFE (Elderly)</option>
+                      <option value="ADP">Adult Day Program (ADP)</option>
+                      <option value="GENERAL">General Inquiry</option>
+                    </select>
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
+                      <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
 
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={status === 'submitting'}
-              className="btn-primary disabled:opacity-70 disabled:cursor-not-allowed"
-            >
-              {status === 'submitting' ? 'Sending...' : 'Send Message'}
-            </button>
-          </form>
+                {/* Message */}
+                <div>
+                  <label htmlFor="message" className="form-label">Message</label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows={4}
+                    value={formData.message}
+                    onChange={handleChange}
+                    required
+                    className="form-input resize-none"
+                    placeholder="How can we help you with licensing?"
+                  />
+                </div>
+
+                {status === 'error' && (
+                  <div className="p-3 bg-red-50 text-red-600 text-sm rounded-md border border-red-100">
+                    {errorMessage}
+                  </div>
+                )}
+
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  disabled={status === 'submitting'}
+                  className="btn-primary disabled:opacity-70 disabled:cursor-not-allowed"
+                >
+                  {status === 'submitting' ? 'Sending...' : 'Send Message'}
+                </button>
+              </form>
+            </>
+          )}
         </div>
       </div>
     </div>

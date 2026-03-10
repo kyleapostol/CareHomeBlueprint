@@ -53,18 +53,20 @@ export default function Header() {
                         <Image
                             src="/logo_new.png"
                             alt="MyProviderPath"
-                            width={45}
-                            height={45}
-                            className="rounded-lg shadow-sm"
+                            width={65}
+                            height={65}
+                            className="rounded-lg shadow-sm shrink-0 object-contain"
                         />
                         <div className="flex flex-col">
                             <span className="topbar-title">
-                                MyProviderPath
+                                My Provider Path
                             </span>
                             {/* Hide the subtitle if we are on the home/landing page */}
                             {pathname !== '/' && (
                                 <span className="topbar-subtitle">
-                                    {facilityTitles[facilityType as keyof typeof facilityTitles]}
+                                    {pathname === '/login' 
+                                        ? '' 
+                                        : facilityTitles[facilityType as keyof typeof facilityTitles]}
                                 </span>
                             )}
                         </div>

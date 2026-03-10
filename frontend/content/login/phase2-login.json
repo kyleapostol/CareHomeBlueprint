@@ -1,0 +1,17 @@
+{
+  "navigation": {
+    "login": "Log In"
+  },
+  "hero": {
+    "title": {
+      "main": "The blueprint to opening and operating your own",
+      "highlight": "care facility."
+    },
+    "subtitle": "Navigate licensing, vendorization, and operations for ARF, RCFE, and ADP facilities without the guesswork. Build your business on a solid foundation.",
+    "cta": "Explore the Platform"
+  },
+  "images": {
+    "desktopAlt": "Desktop Platform Preview",
+    "mobileAlt": "Mobile Platform Preview"
+  }
+}
