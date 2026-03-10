@@ -454,6 +454,7 @@ export interface ApiContactSubmissionContactSubmission
       Schema.Attribute.Private;
     message: Schema.Attribute.Text;
     name: Schema.Attribute.String;
+    phone: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     topic: Schema.Attribute.Enumeration<['ARF', 'RCFE', 'ADP', 'GENERAL']>;
     updatedAt: Schema.Attribute.DateTime;

@@ -1,8 +1,17 @@
-'use client';
+"use client"
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export default function ContactPage() {
+  // Simulate getting the logged-in user
+  const [user, setUser] = useState<{ username: string; phone?: string } | null>(null);
+
+  useEffect(() => {
+    // Replace this with your actual auth logic (e.g., getting user from Strapi/JWT)
+    const savedUser = localStorage.getItem('user'); 
+    if (savedUser) setUser(JSON.parse(savedUser));
+  }, []);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -29,32 +38,25 @@ export default function ContactPage() {
     
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1337';
-      console.log(apiUrl)
+      
       const res = await fetch(`${apiUrl}/api/contact-submissions`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           data: {
-            name: formData.name,
-            email: formData.email,
-            topic: formData.topic,
-            message: formData.message
+            ...formData,
+            // Pass the phone number if the user is logged in
+            phone: user?.phone || 'N/A' 
           }
         }),
       });
 
-      if (!res.ok) {
-        throw new Error('Failed to submit form');
-      }
-
+      if (!res.ok) throw new Error('Failed to submit');
       setStatus('success');
       setFormData({ name: '', email: '', topic: 'ARF', message: '' });
     } catch (error) {
-      console.error(error);
       setStatus('error');
-      setErrorMessage('Something went wrong. Please try again later.');
+      setErrorMessage('Something went wrong.');
     }
   };
 
@@ -115,7 +117,7 @@ export default function ContactPage() {
           ) : (
             <>
               <h2 className="heading-section">Send us a Message</h2>
-              <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-5">
                 {/* Full Name */}
                 <div>
                   <label htmlFor="name" className="form-label">Full Name</label>
@@ -197,7 +199,7 @@ export default function ContactPage() {
                 >
                   {status === 'submitting' ? 'Sending...' : 'Send Message'}
                 </button>
-              </form>
+            </form>
             </>
           )}
         </div>
