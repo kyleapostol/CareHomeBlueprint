@@ -25,8 +25,10 @@ export default function ContactPage() {
     setStatus('submitting');
     setErrorMessage('');
 
+    
+    
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL ;
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1337';
       console.log(apiUrl)
       const res = await fetch(`${apiUrl}/api/contact-submissions`, {
         method: 'POST',
