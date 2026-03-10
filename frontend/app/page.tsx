@@ -37,7 +37,7 @@ export default function LandingPage() {
             {loginData.hero.subtitle}
           </p>
           <div className="cta-group">
-            <Link href="/login" className="cta-primary">
+            <Link href="/arf" className="cta-primary">
               {loginData.hero.cta}
             </Link>
           </div>

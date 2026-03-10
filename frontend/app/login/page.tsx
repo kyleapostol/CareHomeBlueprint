@@ -1,13 +1,19 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../app/contexts/AuthProvider';
 import LoginBackground from '../../components/LoginBackground';
 
 export default function Login() {
   const router = useRouter();
-  const { login } = useAuth();
+  const { login, isLoggedIn, isLoading } = useAuth();
+
+  useEffect(() => {
+    if (!isLoading && isLoggedIn) {
+      router.push('/arf');
+    }
+  }, [isLoading, isLoggedIn, router]);
   
   // State
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -107,7 +113,7 @@ export default function Login() {
 
       if (jwt) {
         login(jwt, user || { id: 1, username: 'PhoneUser', email: '' });
-        router.push('/'); 
+        router.push('/arf'); 
       }
     } catch (err: any) {
       setError(err.message || 'Invalid code');
