@@ -36,7 +36,7 @@
         },
         {
           "id": "rcfe-app-308",
-          "label": "Designation of Facility Responsibility (LIC 308)",
+          "label": "Designation of Administrative Responsibility (LIC 308)",
           "detail": "Designates the individual(s) authorized to act in the licensee's absence. A licensee cannot designate themselves. Essential for ensuring 24/7 administrative coverage."
         },
         {
@@ -46,7 +46,7 @@
         },
         {
           "id": "rcfe-app-400",
-          "label": "Affidavit Regarding Client Cash Resources (LIC 400)",
+          "label": "Affidavit Regarding Client/Resident Cash Resources (LIC 400)",
           "detail": "Details whether the facility will handle resident funds. Must contain original signatures."
         },
         {
@@ -76,7 +76,7 @@
         },
         {
           "id": "rcfe-app-500",
-          "label": "Personnel Report (LIC 500)",
+          "label": "Facility Personnel Summary Report (LIC 500)",
           "detail": "Details all planned employee positions, including scheduled days and hours, to verify adequate staff coverage."
         },
         {
@@ -96,7 +96,7 @@
         },
         {
           "id": "rcfe-app-610e",
-          "label": "Emergency Disaster Plan for RCFEs (LIC 610E)",
+          "label": "Emergency and Disaster Plan for Residential Care Facilities for the Elderly (LIC 610E)",
           "detail": "RCFE-specific disaster plan detailing evacuation routes, emergency contacts, and relocation sites. Relocation sites require written authorization."
         },
         {
@@ -191,7 +191,7 @@
         {
           "id": "rcfe-ins-02",
           "label": "Pass the Pre-Licensing Inspection",
-          "detail": "A Licensing Program Analyst (LPA) will conduct an on-site walkthrough to verify the home is fully furnished, safe, and perfectly matches the submitted Plan of Operation."
+          "detail": "An LPA will conduct an on-site walkthrough to verify the home is ready. Note: If the inspection is due to a change of ownership with residents already in care, the LPA will use form LIC 311F to review required file documents."
         }
       ]
     }
