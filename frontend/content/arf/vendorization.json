@@ -1,38 +1,43 @@
 {
   "phase": "Vendorization",
-  "description": "The Title 17 process to become an authorized service provider for the Regional Center.",
+  "description": "The Title 17 process to become a Regional Center provider via the Provider Directory portal.",
   "sections": [
     {
       "id": "regional-center-entry",
-      "title": "Vendor Application & Program Design",
-      "summary": "Align your facility with the Regional Center's specific needs and service levels.",
+      "title": "Provider Directory Intake & Program Design",
+      "summary": "Align your facility with the Regional Center's specific needs through the digital workflow.",
       "bullets": [
         {
           "id": "ven-app-01",
-          "label": "Submit Vendor Application (Form DS 1890)",
-          "detail": "This is the 'Golden Ticket.' You must submit this to the specific Regional Center in whose catchment area your home is located."
+          "label": "Requirements Stage Intake",
+          "detail": "Submit initial vendor/applicant information, service location, and licenses in the Provider Directory to verify you meet minimum requirements[cite: 1127]. The Regional Center has 15 calendar days to process this stage[cite: 1099, 1100]."
         },
         {
           "id": "ven-app-02",
-          "label": "Finalize the Program Design",
-          "detail": "A detailed document (often 30-50 pages) describing your service model, staffing ratios, and how you will meet the needs of Regional Center consumers."
+          "label": "Finalize & Upload Program Design",
+          "detail": "During the Submission Stage, which has a 30 calendar day processing timeframe[cite: 1106, 1850], upload your detailed Program Design (often 30-50 pages) describing your service model, staffing ratios, and how you will meet the needs of Regional Center consumers."
         },
         {
           "id": "ven-app-03",
           "label": "Determine Service Level (1-4)",
           "detail": "Your rate is determined by the level of care (Level 2, 3, or 4A-I). Higher levels require more specialized staffing and more intensive Program Designs."
+        },
+        {
+          "id": "ven-app-04",
+          "label": "System-Generated DS 1890 & DS 1891",
+          "detail": "Do not request manual forms from the Regional Center[cite: 1552]. The Provider Directory automatically generates drafts of the Vendor Application (DS 1890) and Applicant/Vendor Disclosure Statement (DS 1891). Review, modify the DS 1891 if needed, and e-sign them via AdobeSign[cite: 1809, 1819, 1830]."
         }
       ]
     },
     {
       "id": "contracts-and-rates",
-      "title": "Rate Setting & Electronic Billing",
-      "summary": "Establishing the financial pipeline for monthly reimbursements.",
+      "title": "Decision Stage, Contracts & Rates",
+      "summary": "Establishing the financial pipeline for monthly reimbursements and finalizing approval.",
       "bullets": [
         {
           "id": "ven-rate-01",
-          "label": "Sign the Vendor Agreement",
-          "detail": "Once approved, you receive a unique Vendor Number. This contract binds you to Title 17 regulations, including strict reporting of 'Special Incidents' (SIRs)."
+          "label": "Vendorization Checklist & Decision",
+          "detail": "Upload the Vendor Agreement as part of the Vendorization Checklist[cite: 1584]. The Regional Center has 45 days in the Decision Stage to render an approval or denial and issue your unique Vendor ID[cite: 1115, 1116, 1117]."
         },
         {
           "id": "ven-rate-02",
