@@ -2,66 +2,91 @@
   "phase": "Vendorization",
   "description": "The Title 17 process to become a Regional Center provider via the Provider Directory portal.",
   "sections": [
-    {
-      "id": "regional-center-entry",
-      "title": "Provider Directory Intake & Program Design",
-      "summary": "Align your facility with the Regional Center's specific needs through the digital workflow.",
+        {
+      "id": "service-level-experience",
+      "title": "Experience Requirements",
+      "summary": "Minimum direct service experience requirements for administrators working with individuals with developmental disabilities based on the Regional Center service level.",
       "bullets": [
         {
-          "id": "ven-app-01",
-          "label": "Requirements Stage Intake",
-          "detail": "Submit initial vendor/applicant information, service location, and licenses in the Provider Directory to verify you meet minimum requirements[cite: 1127]. The Regional Center has 15 calendar days to process this stage[cite: 1099, 1100]."
+          "id": "exp-level-2",
+          "label": "Level 2",
+          "detail": "At least 6 months of direct experience working with individuals with developmental disabilities is required. Level 2 facilities are not currently being pursued."
         },
         {
-          "id": "ven-app-02",
-          "label": "Finalize & Upload Program Design",
-          "detail": "During the Submission Stage, which has a 30 calendar day processing timeframe[cite: 1106, 1850], upload your detailed Program Design (often 30-50 pages) describing your service model, staffing ratios, and how you will meet the needs of Regional Center consumers."
+          "id": "exp-level-3",
+          "label": "Level 3",
+          "detail": "At least 9 months of direct experience working with individuals with developmental disabilities is required."
         },
         {
-          "id": "ven-app-03",
-          "label": "Determine Service Level (1-4)",
-          "detail": "Your rate is determined by the level of care (Level 2, 3, or 4A-I). Higher levels require more specialized staffing and more intensive Program Designs."
-        },
-        {
-          "id": "ven-app-04",
-          "label": "System-Generated DS 1890 & DS 1891",
-          "detail": "Do not request manual forms from the Regional Center[cite: 1552]. The Provider Directory automatically generates drafts of the Vendor Application (DS 1890) and Applicant/Vendor Disclosure Statement (DS 1891). Review, modify the DS 1891 if needed, and e-sign them via AdobeSign[cite: 1809, 1819, 1830]."
+          "id": "exp-level-6",
+          "label": "Level 4 5 and 6 (Formerly 4i)",
+          "detail": "At least 12 months of direct experience working with individuals with developmental disabilities is required."
         }
       ]
     },
     {
-      "id": "contracts-and-rates",
-      "title": "Decision Stage, Contracts & Rates",
-      "summary": "Establishing the financial pipeline for monthly reimbursements and finalizing approval.",
+      "id": "ccl-licensing-courses",
+      "title": "Vendorization Training Requirements",
+      "summary": "Training and certifications commonly required for ARF administrators during licensing and Regional Center vendorization.",
       "bullets": [
         {
-          "id": "ven-rate-01",
-          "label": "Vendorization Checklist & Decision",
-          "detail": "Upload the Vendor Agreement as part of the Vendorization Checklist[cite: 1584]. The Regional Center has 45 days in the Decision Stage to render an approval or denial and issue your unique Vendor ID[cite: 1115, 1116, 1117]."
+          "id": "course-rc-01",
+          "label": "ARF Administrator Certification (ICTP)",
+          "detail": "The administrator must complete a CDSS-approved 35-hour Initial Certification Training Program (ICTP) for Adult Residential Facilities and pass the administrator certification exam."
         },
         {
-          "id": "ven-rate-02",
-          "label": "Setup e-Billing (e-Billing System)",
-          "detail": "Most California Regional Centers use the EDI/e-Billing portal. You will need to learn the 'Attendance' and 'Invoice' submission workflow to get paid."
+          "id": "course-rc-02",
+          "label": "Residential Support Specialist (RSS 1)",
+          "detail": "RSS 1 provides foundational training on supporting individuals with developmental disabilities in residential settings, including person-centered planning, documentation, and regulatory expectations required by the Regional Center."
+        },
+        {
+          "id": "course-rc-03",
+          "label": "Residential Support Specialist (RSS 2)",
+          "detail": "RSS 2 expands on RSS 1 and focuses on advanced residential support strategies, behavioral support implementation, and compliance with Title 17 service delivery standards."
+        },
+        {
+          "id": "course-rc-04",
+          "label": "Positive Behavior Supports (PBS) Part 1 and 2",
+          "detail": "PBS training focuses on understanding and implementing behavior support strategies for individuals with challenging behaviors. This training is typically required for higher service levels (such as Level 3 and Level 6). Equivalent qualifications may include certification as a BCBA or BCaBA."
+        },
+        {
+          "id": "course-rc-05",
+          "label": "Direct Support Professional Training (DSPT 1 & 2)",
+          "detail": "DSPT provides foundational competency training for staff supporting individuals with developmental disabilities, covering health and safety, rights, communication, and daily living support. Administrators often complete this training to understand DSP competency requirements."
+        },
+        {
+          "id": "course-rc-06",
+          "label": "Residential Provider Orientation",
+          "detail": "An orientation provided by the Regional Center that introduces new residential providers to vendorization expectations, reporting requirements, service coordination processes, and compliance with Title 17 regulations."
         }
       ]
     },
     {
-      "id": "intake-and-compliance",
-      "title": "Placement & Ongoing Monitoring",
-      "summary": "Moving from an empty house to a fully staffed residential facility.",
-      "bullets": [
-        {
-          "id": "ven-ops-01",
-          "label": "Host the Facility Liaison Visit",
-          "detail": "The Regional Center Liaison will visit your home to verify it matches your Program Design before they send the first 'Referral Packet' for a resident."
-        },
-        {
-          "id": "ven-ops-02",
-          "label": "Execute Admission Agreements",
-          "detail": "This is the contract between the Licensee, the Resident, and the Regional Center. It must comply with both Title 22 and Title 17 standards."
-        }
-      ]
+  "id": "provider-directory-process",
+  "title": "Provider Directory Intake & Portal Workflow",
+  "summary": "The digital process for submitting the vendor application, program design, and securing final approval through the Regional Center's portal.",
+  "bullets": [
+    {
+      "id": "ven-dir-01",
+      "label": "Requirements Stage Intake",
+      "detail": "Submit initial vendor and applicant information, service location details, and the facility license in the Provider Directory to verify minimum requirements are met. The Regional Center has 15 calendar days to process this stage."
+    },
+    {
+      "id": "ven-dir-02",
+      "label": "Program Design Submission",
+      "detail": "During the Submission Stage, which carries a 30-calendar-day processing timeframe, upload the comprehensive Program Design detailing the service model, staffing ratios, and consumer support strategies."
+    },
+    {
+      "id": "ven-dir-03",
+      "label": "System-Generated DS Forms",
+      "detail": "The Provider Directory automatically generates drafts of the Vendor Application (DS 1890) and Applicant/Vendor Disclosure Statement (DS 1891). Review, modify the DS 1891 if needed, and execute them via electronic signature."
+    },
+    {
+      "id": "ven-dir-04",
+      "label": "Decision Stage & Vendor Agreement",
+      "detail": "Upload the Vendor Agreement as part of the Vendorization Checklist. The Regional Center has 45 days in the Decision Stage to render an approval or denial and issue the unique Vendor ID."
     }
+  ]
+}
   ]
 }
