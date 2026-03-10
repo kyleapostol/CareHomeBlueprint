@@ -5,15 +5,15 @@ import { ChecklistProvider } from '../../app/contexts/ChecklistProvider';
 import type { PhaseData } from '../../types/types';
 
 // Placeholder content - replace with RCFE specific JSONs when available
-import prerequisites from '../../content/arf/prerequisites.json';
-import licensing from '../../content/arf/licensing.json';
-import vendorization from '../../content/arf/vendorization.json';
+import prerequisites from '../../content/rcfe/prerequisite.json';
+import licensing from '../../content/rcfe/licensing.json';
+import operations from  '../../content/rcfe/operations.json'
 
 export default function RcfePage() {
-  const phases: Record<'prerequisites' | 'licensing' | 'vendorization', PhaseData> = {
+  const phases: Record<'prerequisites' | 'licensing' | 'operations', PhaseData> = {
     prerequisites,
     licensing,
-    vendorization,
+    operations
   };
 
   return (

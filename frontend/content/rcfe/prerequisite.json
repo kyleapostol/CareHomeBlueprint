@@ -1,0 +1,49 @@
+{
+  "phase": "Prerequisites",
+  "description": "Foundational requirements before applying for ARF licensure in California.",
+  "sections": [
+    {
+      "id": "entity-setup",
+      "title": "Business Entity and Governance",
+      "summary": "Form the legal entity and establish the organizational structure required for the LIC 200 application.",
+      "bullets": [
+        {
+          "id": "pre-ent-01",
+          "label": "Register LLC or Corporation with CA State",
+          "detail": "Most providers choose an LLC to protect personal assets. Note: California charges an $800 annual minimum franchise tax for LLCs regardless of income."
+        },
+        {
+          "id": "pre-ent-02",
+          "label": "Appoint a 'Designee' (Section 80034)",
+          "detail": "If the applicant is an LLC, Title 22 requires you to designate an officer or member with the authority to act for the facility. This person is the primary contact for the Licensing Program Analyst (LPA)."
+        },
+        {
+          "id": "pre-ent-03",
+          "label": "Prepare Form LIC 309",
+          "detail": "The Administrative Organization form tracks the governance of your business. You must list all individuals with 10% or more ownership interest. Note that every person listed is required to pass a criminal background clearance (Live Scan) prior to licensure."        }
+      ]
+    },
+    {
+      "id": "feasibility-and-solvency",
+      "title": "Site Feasibility & Financial Solvency",
+      "summary": "Critical checks to perform before signing a lease or submitting an application.",
+      "bullets": [
+        {
+          "id": "pre-feas-01",
+          "label": "Verify 300ft Separation (H&S Code 1520.5)",
+          "detail": "The 'Overconcentration' rule: Your license will be denied if another ARF is within 300ft of your property line. Use the CDSS Transparency Map to check this before committing to a site."
+        },
+        {
+          "id": "pre-feas-02",
+          "label": "Document 3 Months of Operating Capital",
+          "detail": "Title 22, Section 80021 requires proof of liquid funds (bank statements) to cover rent, payroll, and food for 90 days without a single cent of resident revenue."
+        },
+        {
+          "id": "pre-feas-03",
+          "label": "Audit Bedroom Square Footage",
+          "detail": "Bedrooms must be at least 80 sq. ft. for a single resident or 60 sq. ft. per person for a double. Hallways must be clear and wide enough for the intended resident 'Ambulatory' status."
+        }
+      ]
+    }
+  ]
+}
