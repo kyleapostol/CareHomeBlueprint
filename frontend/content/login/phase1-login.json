@@ -1,0 +1,17 @@
+{
+  "navigation": {
+    "login": "Provider Login"
+  },
+  "hero": {
+    "title": {
+      "main": "Free, step-by-step guides to opening your California",
+      "highlight": "care facility."
+    },
+    "subtitle": "Simplify your path to opening a care facility. We've translated complex licensing, vendorization, and operations requirements for ARF, RCFE, and ADP into clean, actionable checklists.",
+    "cta": "Explore the Platform"
+  },
+  "images": {
+    "desktopAlt": "Desktop Platform Preview",
+    "mobileAlt": "Mobile Platform Preview"
+  }
+}
